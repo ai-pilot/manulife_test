@@ -33,17 +33,27 @@ RANDOM_STATE = 42
 
 def load_and_prepare_data(csv_path="ltc_actuarial_take_home_dataset.csv",
                           test_size=0.25):
-    """Load the LTC dataset, one-hot encode categoricals, and split."""
+    """Load the LTC dataset, engineer features, one-hot encode, and split."""
     df = pd.read_csv(csv_path)
 
     # One-hot encode care-setting preference
     df_enc = df.join(
         pd.get_dummies(df.Care_Setting_Preference, prefix="Setting", drop_first=True)
     )
+
+    # Feature engineering
+    df_enc["Age_x_Risk"] = df_enc["Customer_Age"] * df_enc["Risk_Score_Tier"]
+    df_enc["High_Risk_Flag"] = (df_enc["Risk_Score_Tier"] >= 4).astype(float)
+    df_enc["Claims_Per_Year"] = df_enc["Prior_Claims_Count"] / (df_enc["Customer_Age"] - 39).clip(lower=1)
+    df_enc["Log_Benefit"] = np.log1p(df_enc["Max_Daily_Benefit_USD"])
+    df_enc["Low_Caregiver_x_Age"] = (df_enc["Caregiver_Availability_Index"] <= 2).astype(float) * df_enc["Customer_Age"]
+
     features = [
         "Customer_Age", "Max_Daily_Benefit_USD", "Risk_Score_Tier",
         "Caregiver_Availability_Index", "Macro_Inflation_Rate",
         "Prior_Claims_Count",
+        "Age_x_Risk", "High_Risk_Flag", "Claims_Per_Year",
+        "Log_Benefit", "Low_Caregiver_x_Age",
     ] + [c for c in df_enc.columns if c.startswith("Setting_")]
 
     X = df_enc[features].astype(float)
@@ -238,14 +248,17 @@ def train_tweedie_xgb(X_train, y_train):
     Grid search over tweedie_variance_power, max_depth, learning_rate.
     """
     param_grid = {
-        "tweedie_variance_power": [1.5, 1.6, 1.7, 1.8, 1.9],
-        "max_depth": [4, 5, 6],
+        "tweedie_variance_power": [1.2, 1.5, 1.7],
+        "max_depth": [4, 6],
         "learning_rate": [0.03, 0.05],
-        "n_estimators": [200, 300],
+        "n_estimators": [300],
     }
     base = xgb.XGBRegressor(
         objective="reg:tweedie",
         tree_method="hist",
+        subsample=0.8,
+        colsample_bytree=0.8,
+        reg_alpha=0.5,
         random_state=RANDOM_STATE,
         verbosity=0,
     )
@@ -262,13 +275,16 @@ def train_tweedie_lgbm(X_train, y_train):
     for direct pure premium estimation.
     """
     param_grid = {
-        "tweedie_variance_power": [1.5, 1.6, 1.7, 1.8],
+        "tweedie_variance_power": [1.2, 1.5, 1.7],
         "num_leaves": [31, 50],
         "learning_rate": [0.03, 0.05],
-        "n_estimators": [200, 300],
+        "n_estimators": [300],
     }
     base = lgb.LGBMRegressor(
         objective="tweedie",
+        subsample=0.8,
+        colsample_bytree=0.8,
+        reg_alpha=0.5,
         random_state=RANDOM_STATE,
         verbosity=-1,
     )

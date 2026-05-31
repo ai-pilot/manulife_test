@@ -7817,7 +7817,7 @@ a.anchor-link {
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h1 id="LTC-Expected-Loss-%C3%A2%E2%82%AC%E2%80%9D-Comparative-Model-Analysis">LTC Expected Loss â€” Comparative Model Analysis<a class="anchor-link" href="#LTC-Expected-Loss-%C3%A2%E2%82%AC%E2%80%9D-Comparative-Model-Analysis">¶</a></h1><p>Predicting <strong>Expected Loss</strong> per policyholder:</p>
+<h1 id="LTC-Expected-Loss---Comparative-Model-Analysis">LTC Expected Loss - Comparative Model Analysis<a class="anchor-link" href="#LTC-Expected-Loss---Comparative-Model-Analysis">¶</a></h1><p>Predicting <strong>Expected Loss</strong> per policyholder:</p>
 <p>$$\text{Expected Loss} = P(\text{Claim}) \times E[\text{Payout}\mid\text{Claim}]$$</p>
 <p>We compare a few modeling strategies here:</p>
 <table>
@@ -7860,14 +7860,14 @@ a.anchor-link {
 
 <span class="c1"># Import all model functions from our module</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">ltc_models</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
-    <span class="n">load_and_prepare_data</span><span class="p">,</span>
-    <span class="n">train_frequency_glm</span><span class="p">,</span> <span class="n">train_frequency_xgb</span><span class="p">,</span>
-    <span class="n">train_frequency_lgbm</span><span class="p">,</span> <span class="n">train_frequency_catboost</span><span class="p">,</span> <span class="n">train_frequency_rf</span><span class="p">,</span>
-    <span class="n">train_severity_xgb</span><span class="p">,</span> <span class="n">train_severity_lgbm</span><span class="p">,</span>
-    <span class="n">train_severity_catboost</span><span class="p">,</span> <span class="n">train_severity_rf</span><span class="p">,</span>
-    <span class="n">train_tweedie</span><span class="p">,</span> <span class="n">train_tweedie_xgb</span><span class="p">,</span> <span class="n">train_tweedie_lgbm</span><span class="p">,</span>
-    <span class="n">evaluate_frequency</span><span class="p">,</span> <span class="n">evaluate_severity</span><span class="p">,</span> <span class="n">evaluate_pure_premium</span><span class="p">,</span>
-    <span class="n">normalized_gini</span><span class="p">,</span> <span class="n">compare_models</span><span class="p">,</span> <span class="n">get_frequency_proba</span><span class="p">,</span>
+ <span class="n">load_and_prepare_data</span><span class="p">,</span>
+ <span class="n">train_frequency_glm</span><span class="p">,</span> <span class="n">train_frequency_xgb</span><span class="p">,</span>
+ <span class="n">train_frequency_lgbm</span><span class="p">,</span> <span class="n">train_frequency_catboost</span><span class="p">,</span> <span class="n">train_frequency_rf</span><span class="p">,</span>
+ <span class="n">train_severity_xgb</span><span class="p">,</span> <span class="n">train_severity_lgbm</span><span class="p">,</span>
+ <span class="n">train_severity_catboost</span><span class="p">,</span> <span class="n">train_severity_rf</span><span class="p">,</span>
+ <span class="n">train_tweedie</span><span class="p">,</span> <span class="n">train_tweedie_xgb</span><span class="p">,</span> <span class="n">train_tweedie_lgbm</span><span class="p">,</span>
+ <span class="n">evaluate_frequency</span><span class="p">,</span> <span class="n">evaluate_severity</span><span class="p">,</span> <span class="n">evaluate_pure_premium</span><span class="p">,</span>
+ <span class="n">normalized_gini</span><span class="p">,</span> <span class="n">compare_models</span><span class="p">,</span> <span class="n">get_frequency_proba</span><span class="p">,</span>
 <span class="p">)</span>
 
 <span class="c1"># Load and prepare data</span>
@@ -7907,7 +7907,7 @@ a.anchor-link {
 <span class="nb">print</span><span class="p">(</span><span class="s2">"</span><span class="se">\n</span><span class="s2">=== Key Statistics ==="</span><span class="p">)</span>
 <span class="n">claim_rate</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">Claim_Occurred</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
 <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Overall claim frequency : </span><span class="si">{</span><span class="n">claim_rate</span><span class="si">:</span><span class="s2">.2%</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Share of $0 payouts     : </span><span class="si">{</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">Total_LTC_Payout_USD</span><span class="o">==</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span><span class="si">:</span><span class="s2">.2%</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Share of $0 payouts  : </span><span class="si">{</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">Total_LTC_Payout_USD</span><span class="o">==</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span><span class="si">:</span><span class="s2">.2%</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
 <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="se">\n</span><span class="s2">Severity among claimants (USD):"</span><span class="p">)</span>
 <span class="nb">print</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">df</span><span class="o">.</span><span class="n">Claim_Occurred</span><span class="o">==</span><span class="mi">1</span><span class="p">,</span> <span class="s2">"Total_LTC_Payout_USD"</span><span class="p">]</span><span class="o">.</span><span class="n">describe</span><span class="p">())</span>
 </pre></div>
@@ -7927,17 +7927,17 @@ a.anchor-link {
 <span class="n">sev</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">df</span><span class="o">.</span><span class="n">Claim_Occurred</span> <span class="o">==</span> <span class="mi">1</span><span class="p">,</span> <span class="s2">"Total_LTC_Payout_USD"</span><span class="p">]</span>
 
 <span class="n">fig</span> <span class="o">=</span> <span class="n">make_subplots</span><span class="p">(</span><span class="n">rows</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">cols</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">subplot_titles</span><span class="o">=</span><span class="p">[</span>
-    <span class="s2">"Frequency: 86</span><span class="si">% o</span><span class="s2">f policies never claim"</span><span class="p">,</span>
-    <span class="sa">f</span><span class="s2">"Severity | claim â€” right-skewed (mean $</span><span class="si">{</span><span class="n">sev</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span><span class="si">:</span><span class="s2">,.0f</span><span class="si">}</span><span class="s2">)"</span>
+ <span class="s2">"Frequency: 86</span><span class="si">% o</span><span class="s2">f policies never claim"</span><span class="p">,</span>
+ <span class="sa">f</span><span class="s2">"Severity | claim - right-skewed (mean $</span><span class="si">{</span><span class="n">sev</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span><span class="si">:</span><span class="s2">,.0f</span><span class="si">}</span><span class="s2">)"</span>
 <span class="p">])</span>
 
 <span class="n">counts</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">Claim_Occurred</span><span class="o">.</span><span class="n">value_counts</span><span class="p">()</span><span class="o">.</span><span class="n">sort_index</span><span class="p">()</span>
 <span class="n">fig</span><span class="o">.</span><span class="n">add_trace</span><span class="p">(</span><span class="n">go</span><span class="o">.</span><span class="n">Bar</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="p">[</span><span class="s2">"No Claim"</span><span class="p">,</span> <span class="s2">"Claim"</span><span class="p">],</span> <span class="n">y</span><span class="o">=</span><span class="n">counts</span><span class="o">.</span><span class="n">values</span><span class="p">,</span>
-                     <span class="n">marker_color</span><span class="o">=</span><span class="p">[</span><span class="s2">"#9bbcd1"</span><span class="p">,</span> <span class="s2">"#1f6f8b"</span><span class="p">]),</span> <span class="n">row</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">col</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+      <span class="n">marker_color</span><span class="o">=</span><span class="p">[</span><span class="s2">"#9bbcd1"</span><span class="p">,</span> <span class="s2">"#1f6f8b"</span><span class="p">]),</span> <span class="n">row</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">col</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
 <span class="n">fig</span><span class="o">.</span><span class="n">add_trace</span><span class="p">(</span><span class="n">go</span><span class="o">.</span><span class="n">Histogram</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">sev</span><span class="p">,</span> <span class="n">nbinsx</span><span class="o">=</span><span class="mi">60</span><span class="p">,</span> <span class="n">marker_color</span><span class="o">=</span><span class="s2">"#1f6f8b"</span><span class="p">,</span>
-                           <span class="n">name</span><span class="o">=</span><span class="s2">"Payout"</span><span class="p">),</span> <span class="n">row</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">col</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+       <span class="n">name</span><span class="o">=</span><span class="s2">"Payout"</span><span class="p">),</span> <span class="n">row</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">col</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
 <span class="n">fig</span><span class="o">.</span><span class="n">update_layout</span><span class="p">(</span><span class="n">height</span><span class="o">=</span><span class="mi">400</span><span class="p">,</span> <span class="n">showlegend</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
-                  <span class="n">template</span><span class="o">=</span><span class="s2">"plotly_white"</span><span class="p">,</span> <span class="n">title_text</span><span class="o">=</span><span class="s2">"Claim Distribution"</span><span class="p">)</span>
+     <span class="n">template</span><span class="o">=</span><span class="s2">"plotly_white"</span><span class="p">,</span> <span class="n">title_text</span><span class="o">=</span><span class="s2">"Claim Distribution"</span><span class="p">)</span>
 <span class="n">fig</span><span class="o">.</span><span class="n">update_xaxes</span><span class="p">(</span><span class="n">title_text</span><span class="o">=</span><span class="s2">"Payout (USD)"</span><span class="p">,</span> <span class="n">row</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">col</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
 <span class="n">fig</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
@@ -7955,8 +7955,8 @@ a.anchor-link {
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-python"><pre><span></span><span class="c1"># Risk drivers: claim frequency by key segments</span>
 <span class="k">for</span> <span class="n">col</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">"Risk_Score_Tier"</span><span class="p">,</span> <span class="s2">"Care_Setting_Preference"</span><span class="p">]:</span>
-    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="se">\n</span><span class="s2">Claim frequency by </span><span class="si">{</span><span class="n">col</span><span class="si">}</span><span class="s2">:"</span><span class="p">)</span>
-    <span class="nb">print</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="n">col</span><span class="p">)</span><span class="o">.</span><span class="n">Claim_Occurred</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="n">ascending</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span><span class="o">.</span><span class="n">map</span><span class="p">(</span><span class="k">lambda</span> <span class="n">v</span><span class="p">:</span> <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">v</span><span class="si">:</span><span class="s2">.2%</span><span class="si">}</span><span class="s2">"</span><span class="p">))</span>
+ <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="se">\n</span><span class="s2">Claim frequency by </span><span class="si">{</span><span class="n">col</span><span class="si">}</span><span class="s2">:"</span><span class="p">)</span>
+ <span class="nb">print</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="n">col</span><span class="p">)</span><span class="o">.</span><span class="n">Claim_Occurred</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="n">ascending</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span><span class="o">.</span><span class="n">map</span><span class="p">(</span><span class="k">lambda</span> <span class="n">v</span><span class="p">:</span> <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">v</span><span class="si">:</span><span class="s2">.2%</span><span class="si">}</span><span class="s2">"</span><span class="p">))</span>
 
 <span class="n">df</span><span class="p">[</span><span class="s2">"_AgeBand"</span><span class="p">]</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">cut</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">Customer_Age</span><span class="p">,</span> <span class="p">[</span><span class="mi">39</span><span class="p">,</span> <span class="mi">50</span><span class="p">,</span> <span class="mi">60</span><span class="p">,</span> <span class="mi">70</span><span class="p">,</span> <span class="mi">80</span><span class="p">,</span> <span class="mi">86</span><span class="p">])</span>
 <span class="nb">print</span><span class="p">(</span><span class="s2">"</span><span class="se">\n</span><span class="s2">Claim frequency by age band:"</span><span class="p">)</span>
@@ -7981,7 +7981,7 @@ a.anchor-link {
 <li>Care setting shifts both frequency and cost</li>
 </ul>
 <hr/>
-<h2 id="2.-Frequency-Models-%C3%A2%E2%82%AC%E2%80%9D-P(Claim)">2. Frequency Models â€” P(Claim)<a class="anchor-link" href="#2.-Frequency-Models-%C3%A2%E2%82%AC%E2%80%9D-P(Claim)">¶</a></h2><p>Training 5 models with grid search (3-fold CV on AUC). Comparing on <strong>Gini</strong> (= 2*AUC - 1).</p>
+<h2 id="2.-Frequency-Models---P(Claim)">2. Frequency Models - P(Claim)<a class="anchor-link" href="#2.-Frequency-Models---P(Claim)">¶</a></h2><p>Training 5 models with grid search (3-fold CV on AUC). Comparing on <strong>Gini</strong> (= 2*AUC - 1).</p>
 </div>
 </div>
 </div>
@@ -8004,27 +8004,27 @@ a.anchor-link {
 <span class="c1"># 1. GLM (Logistic Regression)</span>
 <span class="nb">print</span><span class="p">(</span><span class="s2">"</span><span class="se">\n</span><span class="s2">[1/5] Logistic GLM..."</span><span class="p">)</span>
 <span class="n">freq_glm</span><span class="p">,</span> <span class="n">params_glm</span> <span class="o">=</span> <span class="n">train_frequency_glm</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">yf_tr</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="s2">"      No grid search needed (baseline)"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">"  No grid search needed (baseline)"</span><span class="p">)</span>
 
 <span class="c1"># 2. XGBoost</span>
 <span class="nb">print</span><span class="p">(</span><span class="s2">"</span><span class="se">\n</span><span class="s2">[2/5] XGBoost (grid search)..."</span><span class="p">)</span>
 <span class="n">freq_xgb</span><span class="p">,</span> <span class="n">params_xgb</span> <span class="o">=</span> <span class="n">train_frequency_xgb</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">yf_tr</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"      Best params: </span><span class="si">{</span><span class="n">params_xgb</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"  Best params: </span><span class="si">{</span><span class="n">params_xgb</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
 
 <span class="c1"># 3. LightGBM</span>
 <span class="nb">print</span><span class="p">(</span><span class="s2">"</span><span class="se">\n</span><span class="s2">[3/5] LightGBM (grid search)..."</span><span class="p">)</span>
 <span class="n">freq_lgbm</span><span class="p">,</span> <span class="n">params_lgbm</span> <span class="o">=</span> <span class="n">train_frequency_lgbm</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">yf_tr</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"      Best params: </span><span class="si">{</span><span class="n">params_lgbm</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"  Best params: </span><span class="si">{</span><span class="n">params_lgbm</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
 
 <span class="c1"># 4. CatBoost</span>
 <span class="nb">print</span><span class="p">(</span><span class="s2">"</span><span class="se">\n</span><span class="s2">[4/5] CatBoost (grid search)..."</span><span class="p">)</span>
 <span class="n">freq_catboost</span><span class="p">,</span> <span class="n">params_catboost</span> <span class="o">=</span> <span class="n">train_frequency_catboost</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">yf_tr</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"      Best params: </span><span class="si">{</span><span class="n">params_catboost</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"  Best params: </span><span class="si">{</span><span class="n">params_catboost</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
 
 <span class="c1"># 5. Random Forest</span>
 <span class="nb">print</span><span class="p">(</span><span class="s2">"</span><span class="se">\n</span><span class="s2">[5/5] Random Forest (grid search)..."</span><span class="p">)</span>
 <span class="n">freq_rf</span><span class="p">,</span> <span class="n">params_rf</span> <span class="o">=</span> <span class="n">train_frequency_rf</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">yf_tr</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"      Best params: </span><span class="si">{</span><span class="n">params_rf</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"  Best params: </span><span class="si">{</span><span class="n">params_rf</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
 
 <span class="nb">print</span><span class="p">(</span><span class="s2">"</span><span class="se">\n</span><span class="s2">"</span> <span class="o">+</span> <span class="s2">"="</span> <span class="o">*</span> <span class="mi">60</span><span class="p">)</span>
 <span class="nb">print</span><span class="p">(</span><span class="s2">"All frequency models trained."</span><span class="p">)</span>
@@ -8043,19 +8043,19 @@ a.anchor-link {
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-python"><pre><span></span><span class="c1"># Evaluate all frequency models</span>
 <span class="n">freq_models</span> <span class="o">=</span> <span class="p">{</span>
-    <span class="s2">"GLM (Logistic)"</span><span class="p">:</span> <span class="n">freq_glm</span><span class="p">,</span>
-    <span class="s2">"XGBoost"</span><span class="p">:</span> <span class="n">freq_xgb</span><span class="p">,</span>
-    <span class="s2">"LightGBM"</span><span class="p">:</span> <span class="n">freq_lgbm</span><span class="p">,</span>
-    <span class="s2">"CatBoost"</span><span class="p">:</span> <span class="n">freq_catboost</span><span class="p">,</span>
-    <span class="s2">"Random Forest"</span><span class="p">:</span> <span class="n">freq_rf</span><span class="p">,</span>
+ <span class="s2">"GLM (Logistic)"</span><span class="p">:</span> <span class="n">freq_glm</span><span class="p">,</span>
+ <span class="s2">"XGBoost"</span><span class="p">:</span> <span class="n">freq_xgb</span><span class="p">,</span>
+ <span class="s2">"LightGBM"</span><span class="p">:</span> <span class="n">freq_lgbm</span><span class="p">,</span>
+ <span class="s2">"CatBoost"</span><span class="p">:</span> <span class="n">freq_catboost</span><span class="p">,</span>
+ <span class="s2">"Random Forest"</span><span class="p">:</span> <span class="n">freq_rf</span><span class="p">,</span>
 <span class="p">}</span>
 
 <span class="n">freq_results</span> <span class="o">=</span> <span class="p">[]</span>
 <span class="n">freq_probas</span> <span class="o">=</span> <span class="p">{}</span>
 <span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">model</span> <span class="ow">in</span> <span class="n">freq_models</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
-    <span class="n">p</span> <span class="o">=</span> <span class="n">get_frequency_proba</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">X_test</span><span class="p">)</span>
-    <span class="n">freq_probas</span><span class="p">[</span><span class="n">name</span><span class="p">]</span> <span class="o">=</span> <span class="n">p</span>
-    <span class="n">freq_results</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">evaluate_frequency</span><span class="p">(</span><span class="n">yf_te</span><span class="p">,</span> <span class="n">p</span><span class="p">,</span> <span class="n">model_name</span><span class="o">=</span><span class="n">name</span><span class="p">))</span>
+ <span class="n">p</span> <span class="o">=</span> <span class="n">get_frequency_proba</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">X_test</span><span class="p">)</span>
+ <span class="n">freq_probas</span><span class="p">[</span><span class="n">name</span><span class="p">]</span> <span class="o">=</span> <span class="n">p</span>
+ <span class="n">freq_results</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">evaluate_frequency</span><span class="p">(</span><span class="n">yf_te</span><span class="p">,</span> <span class="n">p</span><span class="p">,</span> <span class="n">model_name</span><span class="o">=</span><span class="n">name</span><span class="p">))</span>
 
 <span class="n">freq_comparison</span> <span class="o">=</span> <span class="n">compare_models</span><span class="p">(</span><span class="n">freq_results</span><span class="p">)</span>
 <span class="nb">print</span><span class="p">(</span><span class="s2">"=== Frequency Model Comparison ===</span><span class="se">\n</span><span class="s2">"</span><span class="p">)</span>
@@ -8077,8 +8077,8 @@ a.anchor-link {
 <div class="highlight hl-python"><pre><span></span><span class="c1"># Visual comparison of frequency Gini scores (Plotly)</span>
 <span class="n">freq_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">freq_results</span><span class="p">)</span>
 <span class="n">fig</span> <span class="o">=</span> <span class="n">px</span><span class="o">.</span><span class="n">bar</span><span class="p">(</span><span class="n">freq_df</span><span class="p">,</span> <span class="n">x</span><span class="o">=</span><span class="s2">"Model"</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="s2">"Gini"</span><span class="p">,</span> <span class="n">text</span><span class="o">=</span><span class="s2">"Gini"</span><span class="p">,</span>
-             <span class="n">color_discrete_sequence</span><span class="o">=</span><span class="p">[</span><span class="s2">"#1f6f8b"</span><span class="p">],</span>
-             <span class="n">title</span><span class="o">=</span><span class="s2">"Frequency Model Comparison â€” Gini Coefficient"</span><span class="p">)</span>
+    <span class="n">color_discrete_sequence</span><span class="o">=</span><span class="p">[</span><span class="s2">"#1f6f8b"</span><span class="p">],</span>
+    <span class="n">title</span><span class="o">=</span><span class="s2">"Frequency Model Comparison - Gini Coefficient"</span><span class="p">)</span>
 <span class="n">fig</span><span class="o">.</span><span class="n">update_traces</span><span class="p">(</span><span class="n">textposition</span><span class="o">=</span><span class="s2">"outside"</span><span class="p">,</span> <span class="n">texttemplate</span><span class="o">=</span><span class="s2">"%</span><span class="si">{text:.4f}</span><span class="s2">"</span><span class="p">)</span>
 <span class="n">fig</span><span class="o">.</span><span class="n">update_layout</span><span class="p">(</span><span class="n">template</span><span class="o">=</span><span class="s2">"plotly_white"</span><span class="p">,</span> <span class="n">height</span><span class="o">=</span><span class="mi">400</span><span class="p">,</span> <span class="n">yaxis_title</span><span class="o">=</span><span class="s2">"Gini"</span><span class="p">)</span>
 <span class="n">fig</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
@@ -8095,7 +8095,7 @@ a.anchor-link {
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
 <hr/>
-<h2 id="3.-Severity-Models-%C3%A2%E2%82%AC%E2%80%9D-E%5BPayout-%7C-Claim%5D">3. Severity Models â€” E[Payout | Claim]<a class="anchor-link" href="#3.-Severity-Models-%C3%A2%E2%82%AC%E2%80%9D-E%5BPayout-%7C-Claim%5D">¶</a></h2><p>Trained only on the ~7K policies that actually claimed. Payouts are strictly positive and right-skewed, so tree models use <strong>Gamma objective</strong> where available. Grid search optimized on MAE.</p>
+<h2 id="3.-Severity-Models---E%5BPayout-%7C-Claim%5D">3. Severity Models - E[Payout | Claim]<a class="anchor-link" href="#3.-Severity-Models---E%5BPayout-%7C-Claim%5D">¶</a></h2><p>Trained only on the ~7K policies that actually claimed. Payouts are strictly positive and right-skewed, so tree models use <strong>Gamma objective</strong> where available. Grid search optimized on MAE.</p>
 </div>
 </div>
 </div>
@@ -8120,22 +8120,22 @@ a.anchor-link {
 <span class="c1"># 1. XGBoost (Gamma)</span>
 <span class="nb">print</span><span class="p">(</span><span class="s2">"</span><span class="se">\n</span><span class="s2">[1/4] XGBoost Gamma..."</span><span class="p">)</span>
 <span class="n">sev_xgb</span><span class="p">,</span> <span class="n">sparams_xgb</span> <span class="o">=</span> <span class="n">train_severity_xgb</span><span class="p">(</span><span class="n">X</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">clm_tr</span><span class="p">],</span> <span class="n">ys_tr</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"      Best params: </span><span class="si">{</span><span class="n">sparams_xgb</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"  Best params: </span><span class="si">{</span><span class="n">sparams_xgb</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
 
 <span class="c1"># 2. LightGBM (Gamma)</span>
 <span class="nb">print</span><span class="p">(</span><span class="s2">"</span><span class="se">\n</span><span class="s2">[2/4] LightGBM Gamma..."</span><span class="p">)</span>
 <span class="n">sev_lgbm</span><span class="p">,</span> <span class="n">sparams_lgbm</span> <span class="o">=</span> <span class="n">train_severity_lgbm</span><span class="p">(</span><span class="n">X</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">clm_tr</span><span class="p">],</span> <span class="n">ys_tr</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"      Best params: </span><span class="si">{</span><span class="n">sparams_lgbm</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"  Best params: </span><span class="si">{</span><span class="n">sparams_lgbm</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
 
 <span class="c1"># 3. CatBoost</span>
 <span class="nb">print</span><span class="p">(</span><span class="s2">"</span><span class="se">\n</span><span class="s2">[3/4] CatBoost..."</span><span class="p">)</span>
 <span class="n">sev_catboost</span><span class="p">,</span> <span class="n">sparams_catboost</span> <span class="o">=</span> <span class="n">train_severity_catboost</span><span class="p">(</span><span class="n">X</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">clm_tr</span><span class="p">],</span> <span class="n">ys_tr</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"      Best params: </span><span class="si">{</span><span class="n">sparams_catboost</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"  Best params: </span><span class="si">{</span><span class="n">sparams_catboost</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
 
 <span class="c1"># 4. Random Forest</span>
 <span class="nb">print</span><span class="p">(</span><span class="s2">"</span><span class="se">\n</span><span class="s2">[4/4] Random Forest..."</span><span class="p">)</span>
 <span class="n">sev_rf</span><span class="p">,</span> <span class="n">sparams_rf</span> <span class="o">=</span> <span class="n">train_severity_rf</span><span class="p">(</span><span class="n">X</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">clm_tr</span><span class="p">],</span> <span class="n">ys_tr</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"      Best params: </span><span class="si">{</span><span class="n">sparams_rf</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"  Best params: </span><span class="si">{</span><span class="n">sparams_rf</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
 
 <span class="nb">print</span><span class="p">(</span><span class="s2">"</span><span class="se">\n</span><span class="s2">"</span> <span class="o">+</span> <span class="s2">"="</span> <span class="o">*</span> <span class="mi">60</span><span class="p">)</span>
 <span class="nb">print</span><span class="p">(</span><span class="s2">"All severity models trained."</span><span class="p">)</span>
@@ -8154,18 +8154,18 @@ a.anchor-link {
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-python"><pre><span></span><span class="c1"># Evaluate all severity models</span>
 <span class="n">sev_models</span> <span class="o">=</span> <span class="p">{</span>
-    <span class="s2">"XGBoost (Gamma)"</span><span class="p">:</span> <span class="n">sev_xgb</span><span class="p">,</span>
-    <span class="s2">"LightGBM (Gamma)"</span><span class="p">:</span> <span class="n">sev_lgbm</span><span class="p">,</span>
-    <span class="s2">"CatBoost"</span><span class="p">:</span> <span class="n">sev_catboost</span><span class="p">,</span>
-    <span class="s2">"Random Forest"</span><span class="p">:</span> <span class="n">sev_rf</span><span class="p">,</span>
+ <span class="s2">"XGBoost (Gamma)"</span><span class="p">:</span> <span class="n">sev_xgb</span><span class="p">,</span>
+ <span class="s2">"LightGBM (Gamma)"</span><span class="p">:</span> <span class="n">sev_lgbm</span><span class="p">,</span>
+ <span class="s2">"CatBoost"</span><span class="p">:</span> <span class="n">sev_catboost</span><span class="p">,</span>
+ <span class="s2">"Random Forest"</span><span class="p">:</span> <span class="n">sev_rf</span><span class="p">,</span>
 <span class="p">}</span>
 
 <span class="n">sev_results</span> <span class="o">=</span> <span class="p">[]</span>
 <span class="n">sev_preds</span> <span class="o">=</span> <span class="p">{}</span>
 <span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">model</span> <span class="ow">in</span> <span class="n">sev_models</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
-    <span class="n">pred</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">clm_te</span><span class="p">])</span>
-    <span class="n">sev_preds</span><span class="p">[</span><span class="n">name</span><span class="p">]</span> <span class="o">=</span> <span class="n">pred</span>
-    <span class="n">sev_results</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">evaluate_severity</span><span class="p">(</span><span class="n">ys_te</span><span class="o">.</span><span class="n">values</span><span class="p">,</span> <span class="n">pred</span><span class="p">,</span> <span class="n">model_name</span><span class="o">=</span><span class="n">name</span><span class="p">))</span>
+ <span class="n">pred</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">clm_te</span><span class="p">])</span>
+ <span class="n">sev_preds</span><span class="p">[</span><span class="n">name</span><span class="p">]</span> <span class="o">=</span> <span class="n">pred</span>
+ <span class="n">sev_results</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">evaluate_severity</span><span class="p">(</span><span class="n">ys_te</span><span class="o">.</span><span class="n">values</span><span class="p">,</span> <span class="n">pred</span><span class="p">,</span> <span class="n">model_name</span><span class="o">=</span><span class="n">name</span><span class="p">))</span>
 
 <span class="n">sev_comparison</span> <span class="o">=</span> <span class="n">compare_models</span><span class="p">(</span><span class="n">sev_results</span><span class="p">)</span>
 <span class="nb">print</span><span class="p">(</span><span class="s2">"=== Severity Model Comparison ===</span><span class="se">\n</span><span class="s2">"</span><span class="p">)</span>
@@ -8186,8 +8186,8 @@ a.anchor-link {
 <div class="highlight hl-python"><pre><span></span><span class="c1"># Visual comparison of severity MAE (Plotly)</span>
 <span class="n">sev_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">sev_results</span><span class="p">)</span>
 <span class="n">fig</span> <span class="o">=</span> <span class="n">px</span><span class="o">.</span><span class="n">bar</span><span class="p">(</span><span class="n">sev_df</span><span class="p">,</span> <span class="n">x</span><span class="o">=</span><span class="s2">"Model"</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="s2">"MAE"</span><span class="p">,</span> <span class="n">text</span><span class="o">=</span><span class="s2">"MAE"</span><span class="p">,</span>
-             <span class="n">color_discrete_sequence</span><span class="o">=</span><span class="p">[</span><span class="s2">"#d4a843"</span><span class="p">],</span>
-             <span class="n">title</span><span class="o">=</span><span class="s2">"Severity Model Comparison â€” Mean Absolute Error"</span><span class="p">)</span>
+    <span class="n">color_discrete_sequence</span><span class="o">=</span><span class="p">[</span><span class="s2">"#d4a843"</span><span class="p">],</span>
+    <span class="n">title</span><span class="o">=</span><span class="s2">"Severity Model Comparison - Mean Absolute Error"</span><span class="p">)</span>
 <span class="n">fig</span><span class="o">.</span><span class="n">update_traces</span><span class="p">(</span><span class="n">textposition</span><span class="o">=</span><span class="s2">"outside"</span><span class="p">,</span> <span class="n">texttemplate</span><span class="o">=</span><span class="s2">"$%</span><span class="si">{text:,.0f}</span><span class="s2">"</span><span class="p">)</span>
 <span class="n">fig</span><span class="o">.</span><span class="n">update_layout</span><span class="p">(</span><span class="n">template</span><span class="o">=</span><span class="s2">"plotly_white"</span><span class="p">,</span> <span class="n">height</span><span class="o">=</span><span class="mi">400</span><span class="p">,</span> <span class="n">yaxis_title</span><span class="o">=</span><span class="s2">"MAE (USD)"</span><span class="p">)</span>
 <span class="n">fig</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
@@ -8204,7 +8204,7 @@ a.anchor-link {
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
 <hr/>
-<h2 id="4.-Tweedie-Model-%C3%A2%E2%82%AC%E2%80%9D-Direct-Pure-Premium">4. Tweedie Model â€” Direct Pure Premium<a class="anchor-link" href="#4.-Tweedie-Model-%C3%A2%E2%82%AC%E2%80%9D-Direct-Pure-Premium">¶</a></h2><p>Tweedie (power between 1-2) is a compound Poisson-Gamma that handles zero-inflated continuous targets directly. Instead of splitting into freq/sev, it models E[Loss] in one shot.</p>
+<h2 id="4.-Tweedie-Model---Direct-Pure-Premium">4. Tweedie Model - Direct Pure Premium<a class="anchor-link" href="#4.-Tweedie-Model---Direct-Pure-Premium">¶</a></h2><p>Tweedie (power between 1-2) is a compound Poisson-Gamma that handles zero-inflated continuous targets directly. Instead of splitting into freq/sev, it models E[Loss] in one shot.</p>
 <p>We train three variants:</p>
 <ol>
 <li><strong>Tweedie GLM</strong> - Linear baseline, interpretable</li>
@@ -8231,48 +8231,42 @@ a.anchor-link {
 <span class="nb">print</span><span class="p">(</span><span class="s2">"="</span> <span class="o">*</span> <span class="mi">60</span><span class="p">)</span>
 
 <span class="c1"># 1. Tweedie GLM</span>
-<span class="nb">print</span><span class="p">(</span><span class="s2">"</span>
-<span class="p">[</span><span class="mi">1</span><span class="o">/</span><span class="mi">3</span><span class="p">]</span> <span class="n">Tweedie</span> <span class="n">GLM</span> <span class="p">(</span><span class="n">grid</span> <span class="n">search</span> <span class="n">over</span> <span class="n">power</span> <span class="o">&amp;</span> <span class="n">alpha</span><span class="p">)</span><span class="o">...</span><span class="s2">")</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">"</span><span class="se">\n</span><span class="s2">[1/3] Tweedie GLM (grid search over power &amp; alpha)..."</span><span class="p">)</span>
 <span class="n">tweedie_glm</span><span class="p">,</span> <span class="n">tweedie_glm_params</span> <span class="o">=</span> <span class="n">train_tweedie</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y_loss_tr</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"      Best params: </span><span class="si">{</span><span class="n">tweedie_glm_params</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"  Best params: </span><span class="si">{</span><span class="n">tweedie_glm_params</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
 
 <span class="c1"># 2. XGBoost Tweedie</span>
-<span class="nb">print</span><span class="p">(</span><span class="s2">"</span>
-<span class="p">[</span><span class="mi">2</span><span class="o">/</span><span class="mi">3</span><span class="p">]</span> <span class="n">XGBoost</span> <span class="n">Tweedie</span> <span class="p">(</span><span class="n">grid</span> <span class="n">search</span><span class="p">)</span><span class="o">...</span><span class="s2">")</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">"</span><span class="se">\n</span><span class="s2">[2/3] XGBoost Tweedie (grid search)..."</span><span class="p">)</span>
 <span class="n">tweedie_xgb_model</span><span class="p">,</span> <span class="n">tweedie_xgb_params</span> <span class="o">=</span> <span class="n">train_tweedie_xgb</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y_loss_tr</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"      Best params: </span><span class="si">{</span><span class="n">tweedie_xgb_params</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"  Best params: </span><span class="si">{</span><span class="n">tweedie_xgb_params</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
 
 <span class="c1"># 3. LightGBM Tweedie</span>
-<span class="nb">print</span><span class="p">(</span><span class="s2">"</span>
-<span class="p">[</span><span class="mi">3</span><span class="o">/</span><span class="mi">3</span><span class="p">]</span> <span class="n">LightGBM</span> <span class="n">Tweedie</span> <span class="p">(</span><span class="n">grid</span> <span class="n">search</span><span class="p">)</span><span class="o">...</span><span class="s2">")</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">"</span><span class="se">\n</span><span class="s2">[3/3] LightGBM Tweedie (grid search)..."</span><span class="p">)</span>
 <span class="n">tweedie_lgbm_model</span><span class="p">,</span> <span class="n">tweedie_lgbm_params</span> <span class="o">=</span> <span class="n">train_tweedie_lgbm</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y_loss_tr</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"      Best params: </span><span class="si">{</span><span class="n">tweedie_lgbm_params</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"  Best params: </span><span class="si">{</span><span class="n">tweedie_lgbm_params</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
 
-<span class="nb">print</span><span class="p">(</span><span class="s2">"</span>
-<span class="s2">" + "</span><span class="o">=</span><span class="s2">" * 60)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">"</span><span class="se">\n</span><span class="s2">"</span> <span class="o">+</span> <span class="s2">"="</span> <span class="o">*</span> <span class="mi">60</span><span class="p">)</span>
 
 <span class="c1"># Evaluate all Tweedie models</span>
 <span class="n">tweedie_models_dict</span> <span class="o">=</span> <span class="p">{</span>
-    <span class="s2">"Tweedie GLM"</span><span class="p">:</span> <span class="n">tweedie_glm</span><span class="p">,</span>
-    <span class="s2">"Tweedie XGBoost"</span><span class="p">:</span> <span class="n">tweedie_xgb_model</span><span class="p">,</span>
-    <span class="s2">"Tweedie LightGBM"</span><span class="p">:</span> <span class="n">tweedie_lgbm_model</span><span class="p">,</span>
+ <span class="s2">"Tweedie GLM"</span><span class="p">:</span> <span class="n">tweedie_glm</span><span class="p">,</span>
+ <span class="s2">"Tweedie XGBoost"</span><span class="p">:</span> <span class="n">tweedie_xgb_model</span><span class="p">,</span>
+ <span class="s2">"Tweedie LightGBM"</span><span class="p">:</span> <span class="n">tweedie_lgbm_model</span><span class="p">,</span>
 <span class="p">}</span>
 
 <span class="n">tweedie_results</span> <span class="o">=</span> <span class="p">[]</span>
 <span class="n">tweedie_preds</span> <span class="o">=</span> <span class="p">{}</span>
 <span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">model</span> <span class="ow">in</span> <span class="n">tweedie_models_dict</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
-    <span class="n">pred</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X_test</span><span class="p">)</span>
-    <span class="n">tweedie_preds</span><span class="p">[</span><span class="n">name</span><span class="p">]</span> <span class="o">=</span> <span class="n">pred</span>
-    <span class="n">result</span> <span class="o">=</span> <span class="n">evaluate_pure_premium</span><span class="p">(</span><span class="n">y_loss_te</span><span class="o">.</span><span class="n">values</span><span class="p">,</span> <span class="n">pred</span><span class="p">,</span> <span class="n">model_name</span><span class="o">=</span><span class="n">name</span><span class="p">)</span>
-    <span class="n">tweedie_results</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">result</span><span class="p">)</span>
-    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span>
-<span class="p">{</span><span class="n">name</span><span class="p">}:</span><span class="s2">")</span>
-    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"  Calibration Ratio : </span><span class="si">{</span><span class="n">result</span><span class="p">[</span><span class="s1">'Calibration_Ratio'</span><span class="p">]</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
-    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"  Normalized Gini   : </span><span class="si">{</span><span class="n">result</span><span class="p">[</span><span class="s1">'Normalized_Gini'</span><span class="p">]</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+ <span class="n">pred</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X_test</span><span class="p">)</span>
+ <span class="n">tweedie_preds</span><span class="p">[</span><span class="n">name</span><span class="p">]</span> <span class="o">=</span> <span class="n">pred</span>
+ <span class="n">result</span> <span class="o">=</span> <span class="n">evaluate_pure_premium</span><span class="p">(</span><span class="n">y_loss_te</span><span class="o">.</span><span class="n">values</span><span class="p">,</span> <span class="n">pred</span><span class="p">,</span> <span class="n">model_name</span><span class="o">=</span><span class="n">name</span><span class="p">)</span>
+ <span class="n">tweedie_results</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">result</span><span class="p">)</span>
+ <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="se">\n</span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s2">:"</span><span class="p">)</span>
+ <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">" Calibration Ratio : </span><span class="si">{</span><span class="n">result</span><span class="p">[</span><span class="s1">'Calibration_Ratio'</span><span class="p">]</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+ <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">" Normalized Gini : </span><span class="si">{</span><span class="n">result</span><span class="p">[</span><span class="s1">'Normalized_Gini'</span><span class="p">]</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
 
-<span class="n">best_tweedie</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">tweedie_results</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="p">[</span><span class="s1">'Normalized_Gini'</span><span class="p">])</span>
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span>
-<span class="n">Best</span> <span class="n">single</span><span class="o">-</span><span class="n">model</span> <span class="n">Tweedie</span><span class="p">:</span> <span class="p">{</span><span class="n">best_tweedie</span><span class="p">[</span><span class="s1">'Model'</span><span class="p">]}</span> <span class="p">(</span><span class="n">Gini</span><span class="o">=</span><span class="p">{</span><span class="n">best_tweedie</span><span class="p">[</span><span class="s1">'Normalized_Gini'</span><span class="p">]:</span><span class="mf">.4</span><span class="n">f</span><span class="p">})</span><span class="s2">")</span>
+<span class="n">best_tweedie</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">tweedie_results</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="p">[</span><span class="s2">"Normalized_Gini"</span><span class="p">])</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="se">\n</span><span class="s2">Best single-model Tweedie: </span><span class="si">{</span><span class="n">best_tweedie</span><span class="p">[</span><span class="s1">'Model'</span><span class="p">]</span><span class="si">}</span><span class="s2"> (Gini=</span><span class="si">{</span><span class="n">best_tweedie</span><span class="p">[</span><span class="s1">'Normalized_Gini'</span><span class="p">]</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">)"</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -8286,7 +8280,7 @@ a.anchor-link {
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
 <hr/>
-<h2 id="5.-Pure-Premium-Comparison-%C3%A2%E2%82%AC%E2%80%9D-All-Two-Part-Combinations-+-Tweedie">5. Pure Premium Comparison â€” All Two-Part Combinations + Tweedie<a class="anchor-link" href="#5.-Pure-Premium-Comparison-%C3%A2%E2%82%AC%E2%80%9D-All-Two-Part-Combinations-+-Tweedie">¶</a></h2><p>For each frequency model, we pair it with each severity model to compute: <code>Pure Premium = P(Claim) Ã— E[Severity]</code>. We then evaluate calibration and Gini on the held-out test set.</p>
+<h2 id="5.-Pure-Premium-Comparison---All-Two-Part-Combinations-+-Tweedie">5. Pure Premium Comparison - All Two-Part Combinations + Tweedie<a class="anchor-link" href="#5.-Pure-Premium-Comparison---All-Two-Part-Combinations-+-Tweedie">¶</a></h2><p>For each frequency model, we pair it with each severity model to compute: <code>Pure Premium = P(Claim) - E[Severity]</code>. We then evaluate calibration and Gini on the held-out test set.</p>
 </div>
 </div>
 </div>
@@ -8308,25 +8302,25 @@ a.anchor-link {
 <span class="n">best_pp</span> <span class="o">=</span> <span class="kc">None</span>
 
 <span class="k">for</span> <span class="n">f_name</span><span class="p">,</span> <span class="n">f_model</span> <span class="ow">in</span> <span class="n">freq_models</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
-    <span class="n">p_freq</span> <span class="o">=</span> <span class="n">get_frequency_proba</span><span class="p">(</span><span class="n">f_model</span><span class="p">,</span> <span class="n">X_test</span><span class="p">)</span>
-    <span class="k">for</span> <span class="n">s_name</span><span class="p">,</span> <span class="n">s_model</span> <span class="ow">in</span> <span class="n">sev_models</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
-        <span class="n">sev_all</span> <span class="o">=</span> <span class="n">s_model</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X_test</span><span class="p">)</span>
-        <span class="n">pp</span> <span class="o">=</span> <span class="n">p_freq</span> <span class="o">*</span> <span class="n">sev_all</span>
-        <span class="n">combo_name</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">f_name</span><span class="si">}</span><span class="s2"> + </span><span class="si">{</span><span class="n">s_name</span><span class="si">}</span><span class="s2">"</span>
-        <span class="n">result</span> <span class="o">=</span> <span class="n">evaluate_pure_premium</span><span class="p">(</span><span class="n">actual_loss</span><span class="p">,</span> <span class="n">pp</span><span class="p">,</span> <span class="n">model_name</span><span class="o">=</span><span class="n">combo_name</span><span class="p">)</span>
-        <span class="n">pp_results</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">result</span><span class="p">)</span>
-        <span class="k">if</span> <span class="n">result</span><span class="p">[</span><span class="s2">"Normalized_Gini"</span><span class="p">]</span> <span class="o">&gt;</span> <span class="n">best_gini</span><span class="p">:</span>
-            <span class="n">best_gini</span> <span class="o">=</span> <span class="n">result</span><span class="p">[</span><span class="s2">"Normalized_Gini"</span><span class="p">]</span>
-            <span class="n">best_combo_name</span> <span class="o">=</span> <span class="n">combo_name</span>
-            <span class="n">best_pp</span> <span class="o">=</span> <span class="n">pp</span>
+ <span class="n">p_freq</span> <span class="o">=</span> <span class="n">get_frequency_proba</span><span class="p">(</span><span class="n">f_model</span><span class="p">,</span> <span class="n">X_test</span><span class="p">)</span>
+ <span class="k">for</span> <span class="n">s_name</span><span class="p">,</span> <span class="n">s_model</span> <span class="ow">in</span> <span class="n">sev_models</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+  <span class="n">sev_all</span> <span class="o">=</span> <span class="n">s_model</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X_test</span><span class="p">)</span>
+  <span class="n">pp</span> <span class="o">=</span> <span class="n">p_freq</span> <span class="o">*</span> <span class="n">sev_all</span>
+  <span class="n">combo_name</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">f_name</span><span class="si">}</span><span class="s2"> + </span><span class="si">{</span><span class="n">s_name</span><span class="si">}</span><span class="s2">"</span>
+  <span class="n">result</span> <span class="o">=</span> <span class="n">evaluate_pure_premium</span><span class="p">(</span><span class="n">actual_loss</span><span class="p">,</span> <span class="n">pp</span><span class="p">,</span> <span class="n">model_name</span><span class="o">=</span><span class="n">combo_name</span><span class="p">)</span>
+  <span class="n">pp_results</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">result</span><span class="p">)</span>
+  <span class="k">if</span> <span class="n">result</span><span class="p">[</span><span class="s2">"Normalized_Gini"</span><span class="p">]</span> <span class="o">&gt;</span> <span class="n">best_gini</span><span class="p">:</span>
+   <span class="n">best_gini</span> <span class="o">=</span> <span class="n">result</span><span class="p">[</span><span class="s2">"Normalized_Gini"</span><span class="p">]</span>
+   <span class="n">best_combo_name</span> <span class="o">=</span> <span class="n">combo_name</span>
+   <span class="n">best_pp</span> <span class="o">=</span> <span class="n">pp</span>
 
 <span class="c1"># Add all Tweedie single-model results</span>
 <span class="k">for</span> <span class="n">tr</span> <span class="ow">in</span> <span class="n">tweedie_results</span><span class="p">:</span>
-    <span class="n">pp_results</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">tr</span><span class="p">)</span>
+ <span class="n">pp_results</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">tr</span><span class="p">)</span>
 
 <span class="c1"># Display full comparison</span>
 <span class="n">pp_df</span> <span class="o">=</span> <span class="n">compare_models</span><span class="p">(</span><span class="n">pp_results</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="s2">"=== Pure Premium â€” Full Model Comparison ===</span><span class="se">\n</span><span class="s2">"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">"=== Pure Premium - Full Model Comparison ===</span><span class="se">\n</span><span class="s2">"</span><span class="p">)</span>
 <span class="nb">print</span><span class="p">(</span><span class="n">pp_df</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="s2">"Normalized_Gini"</span><span class="p">,</span> <span class="n">ascending</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span><span class="o">.</span><span class="n">to_string</span><span class="p">())</span>
 <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="se">\n</span><span class="s2">Best two-part combo: </span><span class="si">{</span><span class="n">best_combo_name</span><span class="si">}</span><span class="s2"> (Gini=</span><span class="si">{</span><span class="n">best_gini</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">)"</span><span class="p">)</span>
 </pre></div>
@@ -8359,7 +8353,7 @@ a.anchor-link {
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
 <hr/>
-<h2 id="6.-Best-Model-Deep-Dive-%C3%A2%E2%82%AC%E2%80%9D-Lift-Chart-&amp;-Feature-Importance">6. Best Model Deep-Dive â€” Lift Chart &amp; Feature Importance<a class="anchor-link" href="#6.-Best-Model-Deep-Dive-%C3%A2%E2%82%AC%E2%80%9D-Lift-Chart-&amp;-Feature-Importance">¶</a></h2>
+<h2 id="6.-Best-Model-Deep-Dive---Lift-Chart-&amp;-Feature-Importance">6. Best Model Deep-Dive - Lift Chart &amp; Feature Importance<a class="anchor-link" href="#6.-Best-Model-Deep-Dive---Lift-Chart-&amp;-Feature-Importance">¶</a></h2>
 </div>
 </div>
 </div>
@@ -8376,23 +8370,23 @@ a.anchor-link {
 <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Normalized Gini: </span><span class="si">{</span><span class="n">best_gini</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="se">\n</span><span class="s2">"</span><span class="p">)</span>
 
 <span class="k">def</span><span class="w"> </span><span class="nf">plotly_lift_chart</span><span class="p">(</span><span class="n">actual</span><span class="p">,</span> <span class="n">predicted</span><span class="p">,</span> <span class="n">title</span><span class="p">):</span>
-    <span class="n">ev</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span><span class="s2">"pred"</span><span class="p">:</span> <span class="n">predicted</span><span class="p">,</span> <span class="s2">"actual"</span><span class="p">:</span> <span class="n">actual</span><span class="p">})</span>
-    <span class="n">ev</span><span class="p">[</span><span class="s2">"decile"</span><span class="p">]</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">qcut</span><span class="p">(</span><span class="n">ev</span><span class="o">.</span><span class="n">pred</span><span class="o">.</span><span class="n">rank</span><span class="p">(</span><span class="n">method</span><span class="o">=</span><span class="s2">"first"</span><span class="p">),</span> <span class="mi">10</span><span class="p">,</span> <span class="n">labels</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span>
-    <span class="n">by_dec</span> <span class="o">=</span> <span class="n">ev</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s2">"decile"</span><span class="p">)</span><span class="o">.</span><span class="n">agg</span><span class="p">(</span>
-        <span class="n">mean_pred</span><span class="o">=</span><span class="p">(</span><span class="s2">"pred"</span><span class="p">,</span> <span class="s2">"mean"</span><span class="p">),</span> <span class="n">mean_actual</span><span class="o">=</span><span class="p">(</span><span class="s2">"actual"</span><span class="p">,</span> <span class="s2">"mean"</span><span class="p">))</span><span class="o">.</span><span class="n">reset_index</span><span class="p">()</span>
-    <span class="n">fig</span> <span class="o">=</span> <span class="n">go</span><span class="o">.</span><span class="n">Figure</span><span class="p">()</span>
-    <span class="n">fig</span><span class="o">.</span><span class="n">add_trace</span><span class="p">(</span><span class="n">go</span><span class="o">.</span><span class="n">Bar</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">by_dec</span><span class="o">.</span><span class="n">decile</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="n">by_dec</span><span class="o">.</span><span class="n">mean_actual</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">"Actual Loss"</span><span class="p">,</span>
-                         <span class="n">marker_color</span><span class="o">=</span><span class="s2">"#1f6f8b"</span><span class="p">,</span> <span class="n">offsetgroup</span><span class="o">=</span><span class="mi">0</span><span class="p">))</span>
-    <span class="n">fig</span><span class="o">.</span><span class="n">add_trace</span><span class="p">(</span><span class="n">go</span><span class="o">.</span><span class="n">Bar</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">by_dec</span><span class="o">.</span><span class="n">decile</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="n">by_dec</span><span class="o">.</span><span class="n">mean_pred</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">"Predicted Premium"</span><span class="p">,</span>
-                         <span class="n">marker_color</span><span class="o">=</span><span class="s2">"#9bbcd1"</span><span class="p">,</span> <span class="n">offsetgroup</span><span class="o">=</span><span class="mi">1</span><span class="p">))</span>
-    <span class="n">fig</span><span class="o">.</span><span class="n">update_layout</span><span class="p">(</span><span class="n">barmode</span><span class="o">=</span><span class="s2">"group"</span><span class="p">,</span> <span class="n">template</span><span class="o">=</span><span class="s2">"plotly_white"</span><span class="p">,</span> <span class="n">height</span><span class="o">=</span><span class="mi">400</span><span class="p">,</span>
-                      <span class="n">title</span><span class="o">=</span><span class="n">title</span><span class="p">,</span> <span class="n">xaxis_title</span><span class="o">=</span><span class="s2">"Predicted-risk decile (10 = riskiest)"</span><span class="p">,</span>
-                      <span class="n">yaxis_title</span><span class="o">=</span><span class="s2">"Mean loss per policy (USD)"</span><span class="p">)</span>
-    <span class="n">fig</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
-    <span class="n">lift</span> <span class="o">=</span> <span class="n">by_dec</span><span class="o">.</span><span class="n">mean_actual</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">/</span> <span class="nb">max</span><span class="p">(</span><span class="n">by_dec</span><span class="o">.</span><span class="n">mean_actual</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="mi">1</span><span class="p">)</span>
-    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Top vs bottom decile actual-loss lift: </span><span class="si">{</span><span class="n">lift</span><span class="si">:</span><span class="s2">,.0f</span><span class="si">}</span><span class="s2">x"</span><span class="p">)</span>
+ <span class="n">ev</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span><span class="s2">"pred"</span><span class="p">:</span> <span class="n">predicted</span><span class="p">,</span> <span class="s2">"actual"</span><span class="p">:</span> <span class="n">actual</span><span class="p">})</span>
+ <span class="n">ev</span><span class="p">[</span><span class="s2">"decile"</span><span class="p">]</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">qcut</span><span class="p">(</span><span class="n">ev</span><span class="o">.</span><span class="n">pred</span><span class="o">.</span><span class="n">rank</span><span class="p">(</span><span class="n">method</span><span class="o">=</span><span class="s2">"first"</span><span class="p">),</span> <span class="mi">10</span><span class="p">,</span> <span class="n">labels</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span>
+ <span class="n">by_dec</span> <span class="o">=</span> <span class="n">ev</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s2">"decile"</span><span class="p">)</span><span class="o">.</span><span class="n">agg</span><span class="p">(</span>
+  <span class="n">mean_pred</span><span class="o">=</span><span class="p">(</span><span class="s2">"pred"</span><span class="p">,</span> <span class="s2">"mean"</span><span class="p">),</span> <span class="n">mean_actual</span><span class="o">=</span><span class="p">(</span><span class="s2">"actual"</span><span class="p">,</span> <span class="s2">"mean"</span><span class="p">))</span><span class="o">.</span><span class="n">reset_index</span><span class="p">()</span>
+ <span class="n">fig</span> <span class="o">=</span> <span class="n">go</span><span class="o">.</span><span class="n">Figure</span><span class="p">()</span>
+ <span class="n">fig</span><span class="o">.</span><span class="n">add_trace</span><span class="p">(</span><span class="n">go</span><span class="o">.</span><span class="n">Bar</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">by_dec</span><span class="o">.</span><span class="n">decile</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="n">by_dec</span><span class="o">.</span><span class="n">mean_actual</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">"Actual Loss"</span><span class="p">,</span>
+       <span class="n">marker_color</span><span class="o">=</span><span class="s2">"#1f6f8b"</span><span class="p">,</span> <span class="n">offsetgroup</span><span class="o">=</span><span class="mi">0</span><span class="p">))</span>
+ <span class="n">fig</span><span class="o">.</span><span class="n">add_trace</span><span class="p">(</span><span class="n">go</span><span class="o">.</span><span class="n">Bar</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">by_dec</span><span class="o">.</span><span class="n">decile</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="n">by_dec</span><span class="o">.</span><span class="n">mean_pred</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">"Predicted Premium"</span><span class="p">,</span>
+       <span class="n">marker_color</span><span class="o">=</span><span class="s2">"#9bbcd1"</span><span class="p">,</span> <span class="n">offsetgroup</span><span class="o">=</span><span class="mi">1</span><span class="p">))</span>
+ <span class="n">fig</span><span class="o">.</span><span class="n">update_layout</span><span class="p">(</span><span class="n">barmode</span><span class="o">=</span><span class="s2">"group"</span><span class="p">,</span> <span class="n">template</span><span class="o">=</span><span class="s2">"plotly_white"</span><span class="p">,</span> <span class="n">height</span><span class="o">=</span><span class="mi">400</span><span class="p">,</span>
+      <span class="n">title</span><span class="o">=</span><span class="n">title</span><span class="p">,</span> <span class="n">xaxis_title</span><span class="o">=</span><span class="s2">"Predicted-risk decile (10 = riskiest)"</span><span class="p">,</span>
+      <span class="n">yaxis_title</span><span class="o">=</span><span class="s2">"Mean loss per policy (USD)"</span><span class="p">)</span>
+ <span class="n">fig</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+ <span class="n">lift</span> <span class="o">=</span> <span class="n">by_dec</span><span class="o">.</span><span class="n">mean_actual</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">/</span> <span class="nb">max</span><span class="p">(</span><span class="n">by_dec</span><span class="o">.</span><span class="n">mean_actual</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="mi">1</span><span class="p">)</span>
+ <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Top vs bottom decile actual-loss lift: </span><span class="si">{</span><span class="n">lift</span><span class="si">:</span><span class="s2">,.0f</span><span class="si">}</span><span class="s2">x"</span><span class="p">)</span>
 
-<span class="n">plotly_lift_chart</span><span class="p">(</span><span class="n">actual_loss</span><span class="p">,</span> <span class="n">best_pp</span><span class="p">,</span> <span class="sa">f</span><span class="s2">"Lift Chart â€” </span><span class="si">{</span><span class="n">best_combo_name</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+<span class="n">plotly_lift_chart</span><span class="p">(</span><span class="n">actual_loss</span><span class="p">,</span> <span class="n">best_pp</span><span class="p">,</span> <span class="sa">f</span><span class="s2">"Lift Chart - </span><span class="si">{</span><span class="n">best_combo_name</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -8407,7 +8401,7 @@ a.anchor-link {
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-python"><pre><span></span><span class="c1"># Lift chart for Tweedie (single model) for comparison</span>
-<span class="n">plotly_lift_chart</span><span class="p">(</span><span class="n">actual_loss</span><span class="p">,</span> <span class="n">tweedie_pred</span><span class="p">,</span> <span class="s2">"Lift Chart â€” Tweedie GLM (Single Model)"</span><span class="p">)</span>
+<span class="n">plotly_lift_chart</span><span class="p">(</span><span class="n">actual_loss</span><span class="p">,</span> <span class="n">tweedie_pred</span><span class="p">,</span> <span class="s2">"Lift Chart - Tweedie GLM (Single Model)"</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -8426,26 +8420,26 @@ a.anchor-link {
 <span class="n">best_sev_name</span> <span class="o">=</span> <span class="n">best_combo_name</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">" + "</span><span class="p">)[</span><span class="mi">1</span><span class="p">]</span>
 
 <span class="k">def</span><span class="w"> </span><span class="nf">plotly_feature_importance</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">feature_names</span><span class="p">,</span> <span class="n">title</span><span class="p">):</span>
-    <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="s2">"feature_importances_"</span><span class="p">):</span>
-        <span class="n">imp</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">feature_importances_</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="n">feature_names</span><span class="p">)</span><span class="o">.</span><span class="n">sort_values</span><span class="p">()</span>
-    <span class="k">elif</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="s2">"coef_"</span><span class="p">):</span>
-        <span class="n">coefs</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">coef_</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
-        <span class="n">imp</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">(</span><span class="n">coefs</span> <span class="o">/</span> <span class="n">coefs</span><span class="o">.</span><span class="n">sum</span><span class="p">(),</span> <span class="n">index</span><span class="o">=</span><span class="n">feature_names</span><span class="p">)</span><span class="o">.</span><span class="n">sort_values</span><span class="p">()</span>
-    <span class="k">else</span><span class="p">:</span>
-        <span class="nb">print</span><span class="p">(</span><span class="s2">"No feature importance available"</span><span class="p">);</span> <span class="k">return</span>
-    <span class="n">fig</span> <span class="o">=</span> <span class="n">px</span><span class="o">.</span><span class="n">bar</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">imp</span><span class="o">.</span><span class="n">values</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="n">imp</span><span class="o">.</span><span class="n">index</span><span class="p">,</span> <span class="n">orientation</span><span class="o">=</span><span class="s2">"h"</span><span class="p">,</span>
-                 <span class="n">color_discrete_sequence</span><span class="o">=</span><span class="p">[</span><span class="s2">"#1f6f8b"</span><span class="p">],</span> <span class="n">title</span><span class="o">=</span><span class="n">title</span><span class="p">)</span>
-    <span class="n">fig</span><span class="o">.</span><span class="n">update_layout</span><span class="p">(</span><span class="n">template</span><span class="o">=</span><span class="s2">"plotly_white"</span><span class="p">,</span> <span class="n">height</span><span class="o">=</span><span class="mi">350</span><span class="p">,</span>
-                      <span class="n">xaxis_title</span><span class="o">=</span><span class="s2">"Importance"</span><span class="p">,</span> <span class="n">yaxis_title</span><span class="o">=</span><span class="s2">""</span><span class="p">)</span>
-    <span class="n">fig</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+ <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="s2">"feature_importances_"</span><span class="p">):</span>
+  <span class="n">imp</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">feature_importances_</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="n">feature_names</span><span class="p">)</span><span class="o">.</span><span class="n">sort_values</span><span class="p">()</span>
+ <span class="k">elif</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="s2">"coef_"</span><span class="p">):</span>
+  <span class="n">coefs</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">coef_</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+  <span class="n">imp</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">(</span><span class="n">coefs</span> <span class="o">/</span> <span class="n">coefs</span><span class="o">.</span><span class="n">sum</span><span class="p">(),</span> <span class="n">index</span><span class="o">=</span><span class="n">feature_names</span><span class="p">)</span><span class="o">.</span><span class="n">sort_values</span><span class="p">()</span>
+ <span class="k">else</span><span class="p">:</span>
+  <span class="nb">print</span><span class="p">(</span><span class="s2">"No feature importance available"</span><span class="p">);</span> <span class="k">return</span>
+ <span class="n">fig</span> <span class="o">=</span> <span class="n">px</span><span class="o">.</span><span class="n">bar</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">imp</span><span class="o">.</span><span class="n">values</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="n">imp</span><span class="o">.</span><span class="n">index</span><span class="p">,</span> <span class="n">orientation</span><span class="o">=</span><span class="s2">"h"</span><span class="p">,</span>
+     <span class="n">color_discrete_sequence</span><span class="o">=</span><span class="p">[</span><span class="s2">"#1f6f8b"</span><span class="p">],</span> <span class="n">title</span><span class="o">=</span><span class="n">title</span><span class="p">)</span>
+ <span class="n">fig</span><span class="o">.</span><span class="n">update_layout</span><span class="p">(</span><span class="n">template</span><span class="o">=</span><span class="s2">"plotly_white"</span><span class="p">,</span> <span class="n">height</span><span class="o">=</span><span class="mi">350</span><span class="p">,</span>
+      <span class="n">xaxis_title</span><span class="o">=</span><span class="s2">"Importance"</span><span class="p">,</span> <span class="n">yaxis_title</span><span class="o">=</span><span class="s2">""</span><span class="p">)</span>
+ <span class="n">fig</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Feature Importance â€” Frequency: </span><span class="si">{</span><span class="n">best_freq_name</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Feature Importance - Frequency: </span><span class="si">{</span><span class="n">best_freq_name</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
 <span class="n">plotly_feature_importance</span><span class="p">(</span><span class="n">freq_models</span><span class="p">[</span><span class="n">best_freq_name</span><span class="p">],</span> <span class="n">FEATURES</span><span class="p">,</span>
-                          <span class="sa">f</span><span class="s2">"Frequency Feature Importance (</span><span class="si">{</span><span class="n">best_freq_name</span><span class="si">}</span><span class="s2">)"</span><span class="p">)</span>
+       <span class="sa">f</span><span class="s2">"Frequency Feature Importance (</span><span class="si">{</span><span class="n">best_freq_name</span><span class="si">}</span><span class="s2">)"</span><span class="p">)</span>
 
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="se">\n</span><span class="s2">Feature Importance â€” Severity: </span><span class="si">{</span><span class="n">best_sev_name</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="se">\n</span><span class="s2">Feature Importance - Severity: </span><span class="si">{</span><span class="n">best_sev_name</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
 <span class="n">plotly_feature_importance</span><span class="p">(</span><span class="n">sev_models</span><span class="p">[</span><span class="n">best_sev_name</span><span class="p">],</span> <span class="n">FEATURES</span><span class="p">,</span>
-                          <span class="sa">f</span><span class="s2">"Severity Feature Importance (</span><span class="si">{</span><span class="n">best_sev_name</span><span class="si">}</span><span class="s2">)"</span><span class="p">)</span>
+       <span class="sa">f</span><span class="s2">"Severity Feature Importance (</span><span class="si">{</span><span class="n">best_sev_name</span><span class="si">}</span><span class="s2">)"</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -8466,7 +8460,7 @@ a.anchor-link {
 <li>Use predicted pure premium to rank and segment policies</li>
 <li>Calibration ratio ~1.0 means aggregate predictions match reality</li>
 <li>Risk margin should be based on tail risk (VaR / high quantile), not the mean</li>
-<li>Keep the GLM around for regulatory filings â€” it's auditable</li>
+<li>Keep the GLM around for regulatory filings - it's auditable</li>
 </ol>
 <hr/>
 <h2 id="8.-Summary">8. Summary<a class="anchor-link" href="#8.-Summary">¶</a></h2>
@@ -8483,7 +8477,7 @@ a.anchor-link {
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-python"><pre><span></span><span class="c1"># Final summary table</span>
 <span class="nb">print</span><span class="p">(</span><span class="s2">"="</span> <span class="o">*</span> <span class="mi">70</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="s2">"FINAL MODEL COMPARISON â€” PURE PREMIUM"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">"FINAL MODEL COMPARISON - PURE PREMIUM"</span><span class="p">)</span>
 <span class="nb">print</span><span class="p">(</span><span class="s2">"="</span> <span class="o">*</span> <span class="mi">70</span><span class="p">)</span>
 
 <span class="c1"># Show top 5 + Tweedie</span>
@@ -8498,8 +8492,8 @@ a.anchor-link {
 
 <span class="nb">print</span><span class="p">(</span><span class="s2">"</span><span class="se">\n</span><span class="s2">"</span> <span class="o">+</span> <span class="s2">"="</span> <span class="o">*</span> <span class="mi">70</span><span class="p">)</span>
 <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"BEST OVERALL: </span><span class="si">{</span><span class="n">final_df</span><span class="o">.</span><span class="n">index</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"  Calibration: </span><span class="si">{</span><span class="n">final_df</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="s1">'Calibration_Ratio'</span><span class="p">]</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"  Norm. Gini:  </span><span class="si">{</span><span class="n">final_df</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="s1">'Normalized_Gini'</span><span class="p">]</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">" Calibration: </span><span class="si">{</span><span class="n">final_df</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="s1">'Calibration_Ratio'</span><span class="p">]</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">" Norm. Gini: </span><span class="si">{</span><span class="n">final_df</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="s1">'Normalized_Gini'</span><span class="p">]</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
 <span class="nb">print</span><span class="p">(</span><span class="s2">"="</span> <span class="o">*</span> <span class="mi">70</span><span class="p">)</span>
 </pre></div>
 </div>

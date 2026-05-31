@@ -17,9 +17,9 @@ const MODEL_INFO = {
   frequency: [
     {
       name: 'Logistic GLM',
-      desc: 'Generalized Linear Model with logit link. Fully interpretable coefficients for regulatory filings. Baseline model.',
-      params: 'Solver: lbfgs | Penalty: L2 | C: grid-searched',
-      strengths: 'Interpretable, stable, auditable',
+      desc: 'Generalized Linear Model with logit link. Fully interpretable coefficients for regulatory filings. Best Gini on this dataset.',
+      params: 'Solver: lbfgs | Penalty: L2 | Gini: 0.543',
+      strengths: 'Interpretable, best calibration, auditable',
     },
     {
       name: 'XGBoost',
@@ -32,12 +32,6 @@ const MODEL_INFO = {
       desc: 'Histogram-based gradient boosting. Faster training with leaf-wise growth strategy.',
       params: 'num_leaves: 31 | n_estimators: 200 | learning_rate: 0.05 | 3-fold CV',
       strengths: 'Fast training, memory efficient',
-    },
-    {
-      name: 'CatBoost',
-      desc: 'Ordered boosting with symmetric trees. Native handling of categorical features without encoding.',
-      params: 'depth: 6 | iterations: 200 | learning_rate: 0.05 | 3-fold CV',
-      strengths: 'Handles categoricals natively, reduces overfitting',
     },
     {
       name: 'Random Forest',
@@ -60,16 +54,30 @@ const MODEL_INFO = {
       strengths: 'Fast, handles skewed severity',
     },
     {
-      name: 'CatBoost (RMSE)',
-      desc: 'Ordered boosting for severity. Uses RMSE objective with positive value constraint for claim amount prediction.',
-      params: 'depth: 6 | iterations: 300 | learning_rate: 0.03 | 3-fold CV',
-      strengths: 'Robust to noise, ordered boosting reduces leakage',
-    },
-    {
       name: 'Random Forest',
       desc: 'Bagged ensemble for severity. Provides stable severity estimates with built-in uncertainty quantification.',
       params: 'n_estimators: 200 | max_depth: grid-searched | 3-fold CV',
       strengths: 'Stable predictions, confidence intervals via tree variance',
+    },
+  ],
+  tweedie: [
+    {
+      name: 'Tweedie GLM (Best)',
+      desc: 'Compound Poisson-Gamma that handles zero-inflation directly. Models E[Loss] in one shot without freq/sev split. Best single-model approach.',
+      params: 'power: 1.5-1.9 (grid) | alpha: 0.1-10 (grid) | Gini: 0.678 | Calib: 0.98',
+      strengths: 'Best calibration, interpretable, handles zeros natively',
+    },
+    {
+      name: 'Tweedie XGBoost',
+      desc: 'Gradient boosted trees with reg:tweedie objective. Non-linear single-model approach for direct pure premium.',
+      params: 'power: 1.2-1.7 | max_depth: 4-6 | lr: 0.03-0.05 | Gini: 0.646 | Calib: 0.80',
+      strengths: 'Captures non-linear effects in one model',
+    },
+    {
+      name: 'Tweedie LightGBM',
+      desc: 'Histogram-based boosting with Tweedie loss. Fast alternative to XGBoost for direct premium estimation.',
+      params: 'power: 1.2-1.7 | num_leaves: 31-50 | lr: 0.03-0.05 | Gini: 0.639 | Calib: 0.74',
+      strengths: 'Fast training, competitive single-model',
     },
   ],
 }
@@ -120,7 +128,7 @@ export default function PredictionEngine({ api }) {
 
   // Build feature importance chart data
   const importanceData = result ? result.feature_importance.features.map((f, i) => ({
-    name: f.replace('_', ' ').replace('Setting ', ''),
+    name: f.replaceAll('_', ' ').replace('Setting ', ''),
     GLM: +(result.feature_importance.glm_global[i] * 100).toFixed(1),
     XGBoost: +(result.feature_importance.xgb_global[i] * 100).toFixed(1),
   })).sort((a, b) => b.XGBoost - a.XGBoost) : []
@@ -208,6 +216,30 @@ export default function PredictionEngine({ api }) {
             </div>
           </div>
 
+          {/* Tweedie Single-Model */}
+          <div className="card card-gold">
+            <div className="card-title">Tweedie Single-Model Comparison (Direct Pure Premium)</div>
+            <p style={{ fontSize: 12, color: 'var(--gray-600)', marginBottom: 12 }}>
+              Tweedie models E[Loss] directly without the freq/sev split. Compound Poisson-Gamma handles 86% zeros natively.
+            </p>
+            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: 12 }}>
+              {MODEL_INFO.tweedie.map((m, i) => (
+                <div key={i} className="model-info-card">
+                  <h4>{m.name}</h4>
+                  <p>{m.desc}</p>
+                  <p style={{ marginTop: 6, fontSize: 10, color: 'var(--gray-500)' }}>
+                    <strong>Results:</strong> {m.params}
+                  </p>
+                  <span className="metric">{m.strengths}</span>
+                </div>
+              ))}
+            </div>
+            <p style={{ fontSize: 11, color: 'var(--gray-500)', marginTop: 12, fontStyle: 'italic' }}>
+              Finding: Tweedie GLM outperforms tree-based Tweedie on both Gini and calibration for this dataset,
+              confirming the underlying relationships are largely linear/multiplicative.
+            </p>
+          </div>
+
           {/* Comparison Tables */}
           {comparison && (
             <>
@@ -276,6 +308,11 @@ export default function PredictionEngine({ api }) {
                   <tr><td><strong>Macro_Inflation_Rate</strong></td><td>Numeric</td><td>Current macroeconomic inflation</td><td>Positive - drives up care costs</td></tr>
                   <tr><td><strong>Prior_Claims_Count</strong></td><td>Count</td><td>Number of prior claims filed</td><td>Positive - prior claims indicate future risk</td></tr>
                   <tr><td><strong>Care_Setting_Preference</strong></td><td>Categorical</td><td>Preferred care setting (one-hot encoded)</td><td>Nursing Home most expensive, Home Care least</td></tr>
+                  <tr style={{ background: 'rgba(250,243,224,0.4)' }}><td><strong>Age_x_Risk</strong></td><td>Engineered</td><td>Age * Risk Tier interaction</td><td>Captures compounding effect of age + risk</td></tr>
+                  <tr style={{ background: 'rgba(250,243,224,0.4)' }}><td><strong>High_Risk_Flag</strong></td><td>Engineered</td><td>Binary: Risk Tier 4 or 5</td><td>Isolates the high-risk tail segment</td></tr>
+                  <tr style={{ background: 'rgba(250,243,224,0.4)' }}><td><strong>Claims_Per_Year</strong></td><td>Engineered</td><td>Prior claims / years since age 39</td><td>Normalizes claim history by exposure time</td></tr>
+                  <tr style={{ background: 'rgba(250,243,224,0.4)' }}><td><strong>Log_Benefit</strong></td><td>Engineered</td><td>log(1 + Daily Benefit)</td><td>Reduces benefit skew for linear models</td></tr>
+                  <tr style={{ background: 'rgba(250,243,224,0.4)' }}><td><strong>Low_Caregiver_x_Age</strong></td><td>Engineered</td><td>Age when Caregiver Index &lt;= 2, else 0</td><td>Elderly + no caregiver = nursing home route</td></tr>
                 </tbody>
               </table>
             </div>
@@ -435,10 +472,10 @@ export default function PredictionEngine({ api }) {
                   {/* Feature importance chart */}
                   <div className="card card-blue">
                     <div className="card-title">Feature Importance (%)</div>
-                    <ResponsiveContainer width="100%" height={280}>
+                    <ResponsiveContainer width="100%" height={420}>
                       <BarChart data={importanceData} layout="vertical" margin={{ left: 10 }}>
                         <XAxis type="number" tick={{ fontSize: 11 }} />
-                        <YAxis type="category" dataKey="name" width={120} tick={{ fontSize: 11 }} />
+                        <YAxis type="category" dataKey="name" width={150} tick={{ fontSize: 10 }} />
                         <Tooltip formatter={(v) => `${v}%`} />
                         <Legend wrapperStyle={{ fontSize: 11 }} />
                         <Bar dataKey="GLM" fill="#1f6f8b" name="GLM (coefficients)" barSize={10} radius={[0, 4, 4, 0]} />

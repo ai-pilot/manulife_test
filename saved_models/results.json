@@ -6,311 +6,276 @@
     "Caregiver_Availability_Index",
     "Macro_Inflation_Rate",
     "Prior_Claims_Count",
+    "Age_x_Risk",
+    "High_Risk_Flag",
+    "Claims_Per_Year",
+    "Log_Benefit",
+    "Low_Caregiver_x_Age",
     "Setting_Home Care",
     "Setting_Nursing Home"
   ],
   "frequency_comparison": [
     {
       "Model": "GLM",
-      "AUC": 0.7716,
-      "Gini": 0.5432,
+      "AUC": 0.7714,
+      "Gini": 0.5427,
       "Pred_Freq": 0.1406,
       "Actual_Freq": 0.1394
     },
     {
       "Model": "XGBoost",
-      "AUC": 0.7692,
-      "Gini": 0.5385,
-      "Pred_Freq": 0.14010000228881836,
+      "AUC": 0.7686,
+      "Gini": 0.5373,
+      "Pred_Freq": 0.13989999890327454,
       "Actual_Freq": 0.1394
     },
     {
       "Model": "LightGBM",
-      "AUC": 0.7696,
-      "Gini": 0.5392,
-      "Pred_Freq": 0.1402,
-      "Actual_Freq": 0.1394
-    },
-    {
-      "Model": "CatBoost",
-      "AUC": 0.7708,
-      "Gini": 0.5415,
-      "Pred_Freq": 0.1403,
+      "AUC": 0.769,
+      "Gini": 0.538,
+      "Pred_Freq": 0.1401,
       "Actual_Freq": 0.1394
     },
     {
       "Model": "RandomForest",
-      "AUC": 0.7683,
-      "Gini": 0.5367,
-      "Pred_Freq": 0.1402,
+      "AUC": 0.767,
+      "Gini": 0.534,
+      "Pred_Freq": 0.1403,
       "Actual_Freq": 0.1394
     }
   ],
   "severity_comparison": [
     {
       "Model": "XGBoost_Gamma",
-      "RMSE": 176790.0,
-      "MAE": 119953.0,
+      "RMSE": 177438.0,
+      "MAE": 120041.0,
       "Mean_Actual": 300113.0
     },
     {
       "Model": "LightGBM_Gamma",
-      "RMSE": 177170.0,
-      "MAE": 120341.0,
-      "Mean_Actual": 300113.0
-    },
-    {
-      "Model": "CatBoost",
-      "RMSE": 176198.0,
-      "MAE": 120695.0,
+      "RMSE": 177425.0,
+      "MAE": 120208.0,
       "Mean_Actual": 300113.0
     },
     {
       "Model": "RandomForest",
-      "RMSE": 178286.0,
-      "MAE": 122235.0,
+      "RMSE": 178413.0,
+      "MAE": 122370.0,
       "Mean_Actual": 300113.0
     }
   ],
   "pure_premium_comparison": [
     {
       "Model": "GLM + XGBoost (Gamma)",
-      "Total_Predicted": 497625278.0,
+      "Total_Predicted": 497179436.0,
       "Total_Actual": 523096888.0,
-      "Calibration_Ratio": 0.9513,
-      "Normalized_Gini": 0.6805
+      "Calibration_Ratio": 0.9505,
+      "Normalized_Gini": 0.6803
     },
     {
       "Model": "GLM + LightGBM (Gamma)",
-      "Total_Predicted": 498001120.0,
+      "Total_Predicted": 497222510.0,
       "Total_Actual": 523096888.0,
-      "Calibration_Ratio": 0.952,
-      "Normalized_Gini": 0.6804
-    },
-    {
-      "Model": "GLM + CatBoost",
-      "Total_Predicted": 503657178.0,
-      "Total_Actual": 523096888.0,
-      "Calibration_Ratio": 0.9628,
-      "Normalized_Gini": 0.6813
+      "Calibration_Ratio": 0.9505,
+      "Normalized_Gini": 0.6805
     },
     {
       "Model": "GLM + Random Forest",
-      "Total_Predicted": 504094769.0,
+      "Total_Predicted": 503949730.0,
       "Total_Actual": 523096888.0,
-      "Calibration_Ratio": 0.9637,
-      "Normalized_Gini": 0.679
+      "Calibration_Ratio": 0.9634,
+      "Normalized_Gini": 0.6788
     },
     {
       "Model": "XGBoost + XGBoost (Gamma)",
-      "Total_Predicted": 494741312.0,
+      "Total_Predicted": 492990144.0,
       "Total_Actual": 523096888.0,
-      "Calibration_Ratio": 0.9458,
+      "Calibration_Ratio": 0.9424,
       "Normalized_Gini": 0.6781
     },
     {
       "Model": "XGBoost + LightGBM (Gamma)",
-      "Total_Predicted": 495012751.0,
+      "Total_Predicted": 493142020.0,
       "Total_Actual": 523096888.0,
-      "Calibration_Ratio": 0.9463,
+      "Calibration_Ratio": 0.9427,
       "Normalized_Gini": 0.6782
     },
     {
-      "Model": "XGBoost + CatBoost",
-      "Total_Predicted": 500649856.0,
-      "Total_Actual": 523096888.0,
-      "Calibration_Ratio": 0.9571,
-      "Normalized_Gini": 0.6791
-    },
-    {
       "Model": "XGBoost + Random Forest",
-      "Total_Predicted": 501066121.0,
+      "Total_Predicted": 499872813.0,
       "Total_Actual": 523096888.0,
-      "Calibration_Ratio": 0.9579,
-      "Normalized_Gini": 0.6768
+      "Calibration_Ratio": 0.9556,
+      "Normalized_Gini": 0.6764
     },
     {
       "Model": "LightGBM + XGBoost (Gamma)",
-      "Total_Predicted": 494055680.0,
+      "Total_Predicted": 493073325.0,
       "Total_Actual": 523096888.0,
-      "Calibration_Ratio": 0.9445,
-      "Normalized_Gini": 0.6787
+      "Calibration_Ratio": 0.9426,
+      "Normalized_Gini": 0.6777
     },
     {
       "Model": "LightGBM + LightGBM (Gamma)",
-      "Total_Predicted": 494311070.0,
+      "Total_Predicted": 493190475.0,
       "Total_Actual": 523096888.0,
-      "Calibration_Ratio": 0.945,
-      "Normalized_Gini": 0.6788
-    },
-    {
-      "Model": "LightGBM + CatBoost",
-      "Total_Predicted": 500015906.0,
-      "Total_Actual": 523096888.0,
-      "Calibration_Ratio": 0.9559,
-      "Normalized_Gini": 0.6796
+      "Calibration_Ratio": 0.9428,
+      "Normalized_Gini": 0.6779
     },
     {
       "Model": "LightGBM + Random Forest",
-      "Total_Predicted": 500503655.0,
+      "Total_Predicted": 500166219.0,
       "Total_Actual": 523096888.0,
-      "Calibration_Ratio": 0.9568,
-      "Normalized_Gini": 0.6774
-    },
-    {
-      "Model": "CatBoost + XGBoost (Gamma)",
-      "Total_Predicted": 495259730.0,
-      "Total_Actual": 523096888.0,
-      "Calibration_Ratio": 0.9468,
-      "Normalized_Gini": 0.6799
-    },
-    {
-      "Model": "CatBoost + LightGBM (Gamma)",
-      "Total_Predicted": 495592869.0,
-      "Total_Actual": 523096888.0,
-      "Calibration_Ratio": 0.9474,
-      "Normalized_Gini": 0.68
-    },
-    {
-      "Model": "CatBoost + CatBoost",
-      "Total_Predicted": 501386558.0,
-      "Total_Actual": 523096888.0,
-      "Calibration_Ratio": 0.9585,
-      "Normalized_Gini": 0.6806
-    },
-    {
-      "Model": "CatBoost + Random Forest",
-      "Total_Predicted": 501812823.0,
-      "Total_Actual": 523096888.0,
-      "Calibration_Ratio": 0.9593,
-      "Normalized_Gini": 0.6785
+      "Calibration_Ratio": 0.9562,
+      "Normalized_Gini": 0.676
     },
     {
       "Model": "RandomForest + XGBoost (Gamma)",
-      "Total_Predicted": 481046115.0,
+      "Total_Predicted": 468827564.0,
       "Total_Actual": 523096888.0,
-      "Calibration_Ratio": 0.9196,
-      "Normalized_Gini": 0.6784
+      "Calibration_Ratio": 0.8963,
+      "Normalized_Gini": 0.6765
     },
     {
       "Model": "RandomForest + LightGBM (Gamma)",
-      "Total_Predicted": 481402013.0,
+      "Total_Predicted": 469280558.0,
       "Total_Actual": 523096888.0,
-      "Calibration_Ratio": 0.9203,
-      "Normalized_Gini": 0.6787
-    },
-    {
-      "Model": "RandomForest + CatBoost",
-      "Total_Predicted": 487479912.0,
-      "Total_Actual": 523096888.0,
-      "Calibration_Ratio": 0.9319,
-      "Normalized_Gini": 0.6789
+      "Calibration_Ratio": 0.8971,
+      "Normalized_Gini": 0.6764
     },
     {
       "Model": "RandomForest + Random Forest",
-      "Total_Predicted": 487872915.0,
+      "Total_Predicted": 477066831.0,
       "Total_Actual": 523096888.0,
-      "Calibration_Ratio": 0.9327,
-      "Normalized_Gini": 0.6769
+      "Calibration_Ratio": 0.912,
+      "Normalized_Gini": 0.6739
     },
     {
-      "Model": "Tweedie GLM (Single)",
-      "Total_Predicted": 515716091.0,
+      "Model": "Tweedie GLM",
+      "Total_Predicted": 512649359.0,
       "Total_Actual": 523096888.0,
-      "Calibration_Ratio": 0.9859,
-      "Normalized_Gini": 0.6792
+      "Calibration_Ratio": 0.98,
+      "Normalized_Gini": 0.678
+    },
+    {
+      "Model": "Tweedie XGBoost",
+      "Total_Predicted": 419679808.0,
+      "Total_Actual": 523096888.0,
+      "Calibration_Ratio": 0.8023,
+      "Normalized_Gini": 0.6461
+    },
+    {
+      "Model": "Tweedie LightGBM",
+      "Total_Predicted": 389153309.0,
+      "Total_Actual": 523096888.0,
+      "Calibration_Ratio": 0.7439,
+      "Normalized_Gini": 0.6389
     }
   ],
   "feature_importances": {
     "freq_GLM": {
-      "Customer_Age": 0.04916597329286231,
-      "Max_Daily_Benefit_USD": 1.6496783942363366e-05,
-      "Risk_Score_Tier": 0.20785453755823366,
-      "Caregiver_Availability_Index": 0.11081473758638599,
-      "Macro_Inflation_Rate": 0.19615693373802875,
-      "Prior_Claims_Count": 0.38601656314878613,
-      "Setting_Home Care": 0.0005564117400782881,
-      "Setting_Nursing Home": 0.04941834615168239
+      "Customer_Age": 0.03774910685779896,
+      "Max_Daily_Benefit_USD": 0.00036308279133797364,
+      "Risk_Score_Tier": 0.14763481211875476,
+      "Caregiver_Availability_Index": 0.10508476551073194,
+      "Macro_Inflation_Rate": 0.15906610150299322,
+      "Prior_Claims_Count": 0.30272506821373973,
+      "Age_x_Risk": 8.3757940108891e-05,
+      "High_Risk_Flag": 0.02137287646717975,
+      "Claims_Per_Year": 0.10859046314648378,
+      "Log_Benefit": 0.07311323097763248,
+      "Low_Caregiver_x_Age": 0.0009393313597984324,
+      "Setting_Home Care": 0.0020098285073746366,
+      "Setting_Nursing Home": 0.04126757460606547
     },
     "freq_XGBoost": {
-      "Customer_Age": 0.5389727354049683,
-      "Max_Daily_Benefit_USD": 0.025161636993288994,
-      "Risk_Score_Tier": 0.14657369256019592,
-      "Caregiver_Availability_Index": 0.04748804122209549,
-      "Macro_Inflation_Rate": 0.028326325118541718,
-      "Prior_Claims_Count": 0.16496509313583374,
-      "Setting_Home Care": 0.023494631052017212,
-      "Setting_Nursing Home": 0.025017840787768364
+      "Customer_Age": 0.3793659508228302,
+      "Max_Daily_Benefit_USD": 0.019090982154011726,
+      "Risk_Score_Tier": 0.06859856098890305,
+      "Caregiver_Availability_Index": 0.031590644270181656,
+      "Macro_Inflation_Rate": 0.019080370664596558,
+      "Prior_Claims_Count": 0.10757298022508621,
+      "Age_x_Risk": 0.13365472853183746,
+      "High_Risk_Flag": 0.0323028638958931,
+      "Claims_Per_Year": 0.06109350174665451,
+      "Log_Benefit": 0.0175502710044384,
+      "Low_Caregiver_x_Age": 0.0917605385184288,
+      "Setting_Home Care": 0.017535315826535225,
+      "Setting_Nursing Home": 0.020803235471248627
     },
     "freq_LightGBM": {
-      "Customer_Age": 326,
-      "Max_Daily_Benefit_USD": 65,
-      "Risk_Score_Tier": 206,
-      "Caregiver_Availability_Index": 327,
-      "Macro_Inflation_Rate": 252,
-      "Prior_Claims_Count": 161,
-      "Setting_Home Care": 26,
-      "Setting_Nursing Home": 23
-    },
-    "freq_CatBoost": {
-      "Customer_Age": 68.21308242645017,
-      "Max_Daily_Benefit_USD": 1.4164349146166098,
-      "Risk_Score_Tier": 11.679251501473349,
-      "Caregiver_Availability_Index": 5.491797238141787,
-      "Macro_Inflation_Rate": 2.4622024435554284,
-      "Prior_Claims_Count": 9.554870534284118,
-      "Setting_Home Care": 0.40452835074366655,
-      "Setting_Nursing Home": 0.7778325907348798
+      "Customer_Age": 248,
+      "Max_Daily_Benefit_USD": 36,
+      "Risk_Score_Tier": 26,
+      "Caregiver_Availability_Index": 269,
+      "Macro_Inflation_Rate": 230,
+      "Prior_Claims_Count": 127,
+      "Age_x_Risk": 230,
+      "High_Risk_Flag": 2,
+      "Claims_Per_Year": 105,
+      "Log_Benefit": 17,
+      "Low_Caregiver_x_Age": 40,
+      "Setting_Home Care": 20,
+      "Setting_Nursing Home": 24
     },
     "freq_RandomForest": {
-      "Customer_Age": 0.5283268854427587,
-      "Max_Daily_Benefit_USD": 0.03667900396654439,
-      "Risk_Score_Tier": 0.09079831868386293,
-      "Caregiver_Availability_Index": 0.1326012741342136,
-      "Macro_Inflation_Rate": 0.10886453660113947,
-      "Prior_Claims_Count": 0.08231648710561637,
-      "Setting_Home Care": 0.012829918557311736,
-      "Setting_Nursing Home": 0.007583575508552938
+      "Customer_Age": 0.42855976872193113,
+      "Max_Daily_Benefit_USD": 0.002879847686966382,
+      "Risk_Score_Tier": 0.03931601492278586,
+      "Caregiver_Availability_Index": 0.02251719537612581,
+      "Macro_Inflation_Rate": 0.009763295873714547,
+      "Prior_Claims_Count": 0.05726382377074255,
+      "Age_x_Risk": 0.23777367509342762,
+      "High_Risk_Flag": 0.021778007090834127,
+      "Claims_Per_Year": 0.08634047396910802,
+      "Log_Benefit": 0.002962021509214797,
+      "Low_Caregiver_x_Age": 0.0888325929107281,
+      "Setting_Home Care": 0.0010309412356842216,
+      "Setting_Nursing Home": 0.0009823418387369166
     },
     "sev_XGBoost_Gamma": {
-      "Customer_Age": 0.35729700326919556,
-      "Max_Daily_Benefit_USD": 0.39517441391944885,
-      "Risk_Score_Tier": 0.01997673325240612,
-      "Caregiver_Availability_Index": 0.024598505347967148,
-      "Macro_Inflation_Rate": 0.02078615501523018,
-      "Prior_Claims_Count": 0.022662147879600525,
-      "Setting_Home Care": 0.06617187708616257,
-      "Setting_Nursing Home": 0.09333320707082748
+      "Customer_Age": 0.36364126205444336,
+      "Max_Daily_Benefit_USD": 0.3431299924850464,
+      "Risk_Score_Tier": 0.02025131694972515,
+      "Caregiver_Availability_Index": 0.021801292896270752,
+      "Macro_Inflation_Rate": 0.018921565264463425,
+      "Prior_Claims_Count": 0.024011610075831413,
+      "Age_x_Risk": 0.018578331917524338,
+      "High_Risk_Flag": 0.0,
+      "Claims_Per_Year": 0.01901201345026493,
+      "Log_Benefit": 0.0,
+      "Low_Caregiver_x_Age": 0.022722836583852768,
+      "Setting_Home Care": 0.05718326196074486,
+      "Setting_Nursing Home": 0.09074654430150986
     },
     "sev_LightGBM_Gamma": {
-      "Customer_Age": 297,
-      "Max_Daily_Benefit_USD": 230,
-      "Risk_Score_Tier": 48,
-      "Caregiver_Availability_Index": 275,
-      "Macro_Inflation_Rate": 323,
-      "Prior_Claims_Count": 32,
-      "Setting_Home Care": 77,
-      "Setting_Nursing Home": 56
-    },
-    "sev_CatBoost": {
-      "Customer_Age": 38.53831471536974,
-      "Max_Daily_Benefit_USD": 45.47137545959238,
-      "Risk_Score_Tier": 1.4964173975322272,
-      "Caregiver_Availability_Index": 4.629917322284138,
-      "Macro_Inflation_Rate": 2.6718841111382803,
-      "Prior_Claims_Count": 0.95930997436353,
-      "Setting_Home Care": 3.5960810298501826,
-      "Setting_Nursing Home": 2.636699989869521
+      "Customer_Age": 267,
+      "Max_Daily_Benefit_USD": 228,
+      "Risk_Score_Tier": 12,
+      "Caregiver_Availability_Index": 191,
+      "Macro_Inflation_Rate": 251,
+      "Prior_Claims_Count": 12,
+      "Age_x_Risk": 131,
+      "High_Risk_Flag": 0,
+      "Claims_Per_Year": 55,
+      "Log_Benefit": 0,
+      "Low_Caregiver_x_Age": 36,
+      "Setting_Home Care": 66,
+      "Setting_Nursing Home": 51
     },
     "sev_RandomForest": {
-      "Customer_Age": 0.42695175717978723,
-      "Max_Daily_Benefit_USD": 0.5104754929881481,
-      "Risk_Score_Tier": 0.0030186613641043037,
-      "Caregiver_Availability_Index": 0.026796409136878446,
-      "Macro_Inflation_Rate": 0.00858305176631677,
-      "Prior_Claims_Count": 0.000588735074356881,
-      "Setting_Home Care": 0.01366940587789954,
-      "Setting_Nursing Home": 0.009916486612508803
+      "Customer_Age": 0.42332113629171764,
+      "Max_Daily_Benefit_USD": 0.24335230979585015,
+      "Risk_Score_Tier": 0.000765261163007008,
+      "Caregiver_Availability_Index": 0.021617125323699152,
+      "Macro_Inflation_Rate": 0.007624629045162094,
+      "Prior_Claims_Count": 0.0001590369006674102,
+      "Age_x_Risk": 0.006732803484026849,
+      "High_Risk_Flag": 9.31483639109606e-05,
+      "Claims_Per_Year": 0.001277806989428423,
+      "Log_Benefit": 0.26559185425661636,
+      "Low_Caregiver_x_Age": 0.0066850093899845945,
+      "Setting_Home Care": 0.013388725658347922,
+      "Setting_Nursing Home": 0.009391153337581289
     }
   },
   "best_freq_params": {
@@ -325,13 +290,8 @@
       "n_estimators": 200,
       "num_leaves": 15
     },
-    "CatBoost": {
-      "depth": 4,
-      "iterations": 200,
-      "learning_rate": 0.05
-    },
     "RandomForest": {
-      "max_depth": 10,
+      "max_depth": 5,
       "min_samples_leaf": 10,
       "n_estimators": 300
     }
@@ -348,11 +308,6 @@
       "n_estimators": 200,
       "num_leaves": 15
     },
-    "CatBoost": {
-      "depth": 4,
-      "iterations": 200,
-      "learning_rate": 0.05
-    },
     "RandomForest": {
       "max_depth": 5,
       "min_samples_leaf": 10,
@@ -360,8 +315,22 @@
     }
   },
   "tweedie_params": {
-    "alpha": 1.0,
-    "power": 1.5
+    "GLM": {
+      "alpha": 10.0,
+      "power": 1.5
+    },
+    "XGBoost": {
+      "learning_rate": 0.05,
+      "max_depth": 6,
+      "n_estimators": 300,
+      "tweedie_variance_power": 1.7
+    },
+    "LightGBM": {
+      "learning_rate": 0.05,
+      "n_estimators": 300,
+      "num_leaves": 50,
+      "tweedie_variance_power": 1.7
+    }
   },
   "dataset_stats": {
     "total_policies": 50000,

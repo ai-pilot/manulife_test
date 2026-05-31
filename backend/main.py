@@ -52,13 +52,19 @@ class PolicyInput(BaseModel):
 def encode_input(data: PolicyInput):
     """Encode a single policy input into a DataFrame with proper feature names."""
     import pandas as pd
+    age = data.Customer_Age
     row = {
-        "Customer_Age": data.Customer_Age,
+        "Customer_Age": age,
         "Max_Daily_Benefit_USD": data.Max_Daily_Benefit_USD,
         "Risk_Score_Tier": data.Risk_Score_Tier,
         "Caregiver_Availability_Index": data.Caregiver_Availability_Index,
         "Macro_Inflation_Rate": data.Macro_Inflation_Rate,
         "Prior_Claims_Count": data.Prior_Claims_Count,
+        "Age_x_Risk": age * data.Risk_Score_Tier,
+        "High_Risk_Flag": 1.0 if data.Risk_Score_Tier >= 4 else 0.0,
+        "Claims_Per_Year": data.Prior_Claims_Count / max(age - 39, 1),
+        "Log_Benefit": float(np.log1p(data.Max_Daily_Benefit_USD)),
+        "Low_Caregiver_x_Age": age if data.Caregiver_Availability_Index <= 2 else 0.0,
         "Setting_Home Care": 1.0 if data.Care_Setting_Preference == "Home Care" else 0.0,
         "Setting_Nursing Home": 1.0 if data.Care_Setting_Preference == "Nursing Home" else 0.0,
     }

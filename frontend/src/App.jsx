@@ -12,8 +12,7 @@ function App() {
       {/* Sidebar */}
       <nav className="sidebar">
         <div className="sidebar-header">
-          <h1>LTC Analytics</h1>
-          <p>Actuarial Analytics</p>
+          <h1>Manulife Task</h1>
         </div>
 
         <div className="sidebar-nav">

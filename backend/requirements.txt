@@ -1,0 +1,9 @@
+fastapi
+uvicorn
+joblib
+numpy
+scikit-learn
+xgboost
+lightgbm
+catboost
+fpdf2

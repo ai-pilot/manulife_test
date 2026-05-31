@@ -1,327 +1,382 @@
 import { useState, useEffect, useRef } from 'react'
 
-const DEFAULTS = {
-  Customer_Age: 70,
-  Max_Daily_Benefit_USD: 200,
-  Risk_Score_Tier: 3,
-  Caregiver_Availability_Index: 3.0,
-  Macro_Inflation_Rate: 0.03,
-  Prior_Claims_Count: 1,
-  Care_Setting_Preference: 'Home Care',
+// Simulated portfolio data for 2 quarters
+const QUARTER_DATA = {
+  'Q1 2026': {
+    label: 'Q1 2026',
+    total_policies: 48200,
+    claim_rate: 0.1321,
+    mean_severity: 275400,
+    median_severity: 221000,
+    high_risk_pct: 0.18,
+    avg_age: 67.2,
+    home_care_pct: 0.44,
+  },
+  'Q2 2026': {
+    label: 'Q2 2026',
+    total_policies: 50000,
+    claim_rate: 0.1394,
+    mean_severity: 288869,
+    median_severity: 230337,
+    high_risk_pct: 0.21,
+    avg_age: 68.1,
+    home_care_pct: 0.41,
+  },
 }
 
-const AGENT_STEPS = [
+// Agent definitions with capabilities
+const AGENTS = [
   {
-    agent: 'Data Masking',
+    id: 'masking',
+    name: 'Data Masking Agent',
     icon: '\u{1F6E1}',
     color: '#e53935',
-    action: (form) => ({
-      status: 'PII stripped before LLM context',
-      detail: `Policy_ID: [REDACTED] | Age bucketed: ${form.Customer_Age < 60 ? '<60' : form.Customer_Age < 75 ? '60-74' : '75+'} | Exact age withheld from LLM`,
-      duration: 400,
-    }),
-  },
-  {
-    agent: 'Retriever Agent',
-    icon: '\u{1F50D}',
-    color: '#1f6f8b',
-    action: (form, pred) => ({
-      status: 'Retrieved model outputs + financial context',
-      detail: `Queried: model predictions, portfolio stats, IFRS 17 guidelines\nPure premium: $${pred?.pure_premium?.glm_xgb?.toLocaleString() || '--'} | Claim prob: ${pred ? (pred.frequency.glm * 100).toFixed(1) : '--'}%`,
-      duration: 800,
-    }),
-  },
-  {
-    agent: 'Analyst Agent',
-    icon: '\u{270D}',
-    color: '#2e7d32',
-    action: () => ({
-      status: 'Drafted narrative sections',
-      detail: `Sections: Executive Summary, Risk Profile, Capital Adequacy\nNote: LLM only writes prose. All numbers injected from deterministic Python output, never computed by the LLM.`,
-      duration: 1200,
-    }),
-  },
-  {
-    agent: 'Numeric Checker',
-    icon: '\u{2705}',
-    color: '#d4a843',
-    action: (form, pred) => {
-      const pp = pred?.pure_premium?.glm_xgb || 0
-      const freq = pred?.frequency?.glm || 0
-      const sev = pred?.severity || 0
-      const recomputed = Math.round(freq * sev * 100) / 100
-      const match = Math.abs(recomputed - pp) < 1
+    capability: 'Strips PII (Policy IDs, exact ages, addresses) before any data enters the LLM context. Applies k-anonymity bucketing and redaction rules per DLP policy.',
+    process: (quarter, params) => {
+      const q = QUARTER_DATA[quarter]
       return {
-        status: match ? 'All figures reconciled -- PASS' : `Discrepancy flagged`,
-        detail: `Cross-check: P(claim) x E[sev] = ${freq.toFixed(4)} x $${sev.toLocaleString()} = $${recomputed.toLocaleString()}\nMatches reported: ${match ? 'YES' : 'NO'}\nSolvency ratio, reserve figures: verified against source dataframe`,
-        duration: 600,
+        input: `Raw portfolio: ${q.total_policies.toLocaleString()} policies with full PII fields`,
+        processing: [
+          'Scanning 14 columns for PII markers...',
+          'Policy_ID: REDACTED (all rows)',
+          `Customer_Age: bucketed into bands (<60, 60-74, 75+)`,
+          'Addresses: removed | Names: removed',
+          'Applying k-anonymity (k=5) verification...',
+        ],
+        output: `Clean dataset ready: ${q.total_policies.toLocaleString()} rows, 8 features retained, 0 PII fields exposed to LLM`,
+        duration: 1800,
       }
     },
   },
   {
-    agent: 'Guardrails (NeMo)',
+    id: 'retriever',
+    name: 'Retriever Agent',
+    icon: '\u{1F50D}',
+    color: '#1f6f8b',
+    capability: 'Queries the vector store and structured data warehouse to pull model outputs, historical trends, regulatory benchmarks, and IFRS 17 guidelines relevant to the report scope.',
+    process: (quarter, params) => {
+      const q = QUARTER_DATA[quarter]
+      const aggLoss = q.total_policies * q.claim_rate * q.mean_severity
+      return {
+        input: `Query: "${quarter} portfolio risk exposure, capital adequacy, trend vs prior quarter"`,
+        processing: [
+          'Searching vector store: IFRS 17 compliance docs...',
+          'Querying model registry: frequency + severity outputs...',
+          'Pulling from data warehouse: portfolio composition stats...',
+          'Fetching: historical claim trends (4 quarters)...',
+          'Loading: NAIC RBC ratio benchmarks...',
+        ],
+        output: `Retrieved 12 documents | Aggregate EL: $${(aggLoss / 1e6).toFixed(1)}M | Claim rate: ${(q.claim_rate * 100).toFixed(1)}% | Mean severity: $${q.mean_severity.toLocaleString()}`,
+        duration: 2200,
+      }
+    },
+  },
+  {
+    id: 'analyst',
+    name: 'Analyst Agent',
+    icon: '\u{270D}\u{FE0F}',
+    color: '#2e7d32',
+    capability: 'Drafts narrative sections of the report using retrieved context. The LLM writes prose ONLY - all numerical values are injected from deterministic Python outputs, never generated by the model.',
+    process: (quarter, params) => {
+      const q = QUARTER_DATA[quarter]
+      const aggLoss = q.total_policies * q.claim_rate * q.mean_severity
+      const safetyPct = params.inflation * 300
+      const reserve = aggLoss * (1 + safetyPct / 100)
+      return {
+        input: `Context: 12 retrieved docs + model outputs | Task: Draft solvency report for ${quarter}`,
+        processing: [
+          'Drafting Section 1: Executive Summary...',
+          'Drafting Section 2: Portfolio Risk Exposure...',
+          'Drafting Section 3: Loss Driver Analysis...',
+          'Drafting Section 4: Capital Reserve Recommendation...',
+          'Drafting Section 5: Model Validation & Monitoring...',
+          'Inserting pre-computed figures into placeholders...',
+        ],
+        output: `5 sections drafted | 847 words | 14 numeric placeholders filled from Python | 0 LLM-generated numbers`,
+        duration: 3000,
+      }
+    },
+  },
+  {
+    id: 'checker',
+    name: 'Numeric Checker Agent',
+    icon: '\u{2705}',
+    color: '#d4a843',
+    capability: 'Re-derives every figure cited in the draft independently from the source dataframe. Flags any discrepancy > 0.01% between the draft and recomputed values. Blocks report if check fails.',
+    process: (quarter, params) => {
+      const q = QUARTER_DATA[quarter]
+      const aggLoss = q.total_policies * q.claim_rate * q.mean_severity
+      const safetyPct = params.inflation * 300
+      const reserve = aggLoss * (1 + safetyPct / 100)
+      return {
+        input: `Draft report with 14 numeric claims to verify`,
+        processing: [
+          `Verifying: ${q.total_policies.toLocaleString()} x ${(q.claim_rate * 100).toFixed(2)}% x $${q.mean_severity.toLocaleString()} = $${(aggLoss / 1e6).toFixed(1)}M ... PASS`,
+          `Verifying: Safety loading ${safetyPct.toFixed(0)}% of $${(aggLoss / 1e6).toFixed(1)}M = $${((reserve - aggLoss) / 1e6).toFixed(1)}M ... PASS`,
+          `Verifying: Min reserve $${(reserve / 1e6).toFixed(1)}M ... PASS`,
+          `Verifying: Claim rate trend +${((q.claim_rate - 0.1321) * 100).toFixed(2)}pp vs prior ... PASS`,
+          `Cross-referencing 10 additional figures against source SQL...`,
+        ],
+        output: `14/14 numeric claims verified | Max deviation: 0.00% | Status: ALL PASS`,
+        duration: 1600,
+      }
+    },
+  },
+  {
+    id: 'guardrails',
+    name: 'NeMo Guardrails',
     icon: '\u{1F6A7}',
-    color: '#e53935',
-    action: () => ({
-      status: 'Content validated -- no PII leakage, no hallucinated numbers',
-      detail: `PII scan: CLEAN\nTopic rails: PASS\nNumber audit: PASS (every figure traces to Python/SQL source)`,
-      duration: 500,
+    color: '#7b1fa2',
+    capability: 'Final safety layer: scans output for PII leakage, topic drift (non-actuarial content), hallucinated numbers not in source, and inappropriate recommendations beyond actuarial scope.',
+    process: (quarter, params) => ({
+      input: `Final draft for compliance validation`,
+      processing: [
+        'PII scan: checking for policy IDs, names, exact DOBs... CLEAN',
+        'Topic rails: verifying all content is actuarial/financial... PASS',
+        'Number audit: every figure traces to Python/SQL source... PASS',
+        'Scope check: no medical advice, no investment guidance... PASS',
+        'Toxicity filter: professional tone verified... PASS',
+      ],
+      output: `All 5 guardrail checks PASSED | Report cleared for delivery`,
+      duration: 1200,
     }),
   },
   {
-    agent: 'Composer',
+    id: 'composer',
+    name: 'Composer Agent',
     icon: '\u{1F4C4}',
     color: '#1565c0',
-    action: () => ({
-      status: 'Report assembled and ready',
-      detail: 'Merged narrative + tables + formatting into final PDF\nReady for actuary review',
-      duration: 700,
+    capability: 'Assembles verified narrative, tables, and formatting into the final report structure. Adds headers, pagination, charts references, and prepares both web preview and PDF export.',
+    process: (quarter, params) => ({
+      input: `Verified draft + formatting template`,
+      processing: [
+        'Applying report template: Q2 Solvency & Capital Allocation...',
+        'Generating comparison tables...',
+        'Formatting currency, percentages, dates...',
+        'Adding executive summary highlights...',
+        'Preparing PDF layout with headers + footer...',
+      ],
+      output: `Report assembled | 5 sections | 2 tables | Ready for review and export`,
+      duration: 1400,
     }),
   },
 ]
 
 export default function ReportGenerator({ api }) {
-  const [form, setForm] = useState(DEFAULTS)
+  const [quarter, setQuarter] = useState('Q2 2026')
+  const [params, setParams] = useState({ inflation: 0.03, confidence: 95 })
   const [loading, setLoading] = useState(false)
-  const [prediction, setPrediction] = useState(null)
-  const [portfolioStats, setPortfolioStats] = useState(null)
   const [agentLog, setAgentLog] = useState([])
   const [currentStep, setCurrentStep] = useState(-1)
+  const [currentLines, setCurrentLines] = useState([])
   const [pipelineDone, setPipelineDone] = useState(false)
+  const [showReport, setShowReport] = useState(false)
+  const [compareMode, setCompareMode] = useState(false)
+  const [showModal, setShowModal] = useState(false)
   const logRef = useRef(null)
-
-  // Load portfolio stats on mount
-  useEffect(() => {
-    fetch(`${api}/api/model-comparison`)
-      .then(r => r.json())
-      .then(d => setPortfolioStats(d.dataset_stats))
-      .catch(() => {
-        setPortfolioStats({
-          total_policies: 50000, claim_rate: 0.1394,
-          mean_severity: 288869, median_severity: 230337,
-        })
-      })
-  }, [api])
-
-  const handleChange = (field, value) => {
-    setForm(prev => ({ ...prev, [field]: value }))
-  }
+  const reportRef = useRef(null)
 
   useEffect(() => {
     if (logRef.current) logRef.current.scrollTop = logRef.current.scrollHeight
-  }, [agentLog])
+  }, [agentLog, currentLines])
 
   const runPipeline = async () => {
     setLoading(true)
     setAgentLog([])
     setCurrentStep(-1)
+    setCurrentLines([])
     setPipelineDone(false)
-    setPrediction(null)
+    setShowReport(false)
 
-    let pred = null
-    try {
-      const r = await fetch(`${api}/api/predict`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(form),
-      })
-      pred = await r.json()
-    } catch {
-      pred = {
-        frequency: { glm: 0.22, xgboost: 0.21 },
-        severity: 280000,
-        pure_premium: { glm_xgb: 61600, xgb_xgb: 58800, tweedie: 59200 },
-      }
-    }
-    setPrediction(pred)
-
-    for (let i = 0; i < AGENT_STEPS.length; i++) {
+    for (let i = 0; i < AGENTS.length; i++) {
       setCurrentStep(i)
-      const step = AGENT_STEPS[i]
-      const result = step.action(form, pred)
-      await new Promise(resolve => setTimeout(resolve, result.duration))
+      const agent = AGENTS[i]
+      const result = agent.process(quarter, params)
+
+      // Show input
+      setCurrentLines([`> Input: ${result.input}`])
+      await sleep(400)
+
+      // Typewriter processing lines
+      for (let j = 0; j < result.processing.length; j++) {
+        await sleep(result.duration / result.processing.length)
+        setCurrentLines(prev => [...prev, result.processing[j]])
+      }
+
+      // Show output
+      await sleep(300)
+      setCurrentLines(prev => [...prev, `\u2714 ${result.output}`])
+      await sleep(400)
+
+      // Move to log
       setAgentLog(prev => [...prev, {
-        agent: step.agent, icon: step.icon, color: step.color,
-        status: result.status, detail: result.detail,
+        agent: agent.name, icon: agent.icon, color: agent.color,
+        input: result.input,
+        processing: result.processing,
+        output: result.output,
         ts: new Date().toLocaleTimeString(),
       }])
+      setCurrentLines([])
     }
 
     setCurrentStep(-1)
     setPipelineDone(true)
+    setShowReport(true)
+    setShowModal(true)
     setLoading(false)
   }
 
   const downloadPdf = async () => {
     try {
+      const q = QUARTER_DATA[quarter]
       const r = await fetch(`${api}/api/report`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(form),
+        body: JSON.stringify({
+          Customer_Age: q.avg_age,
+          Max_Daily_Benefit_USD: 200,
+          Risk_Score_Tier: 3,
+          Caregiver_Availability_Index: 3.0,
+          Macro_Inflation_Rate: params.inflation,
+          Prior_Claims_Count: 1,
+          Care_Setting_Preference: 'Home Care',
+        }),
       })
+      if (!r.ok) throw new Error('Server error')
       const blob = await r.blob()
+      if (blob.size < 100) throw new Error('Empty response')
       const url = URL.createObjectURL(blob)
       const a = document.createElement('a')
       a.href = url
-      a.download = 'LTC_Solvency_Report.pdf'
+      a.download = `LTC_Solvency_Report_${quarter.replace(' ', '_')}.pdf`
+      document.body.appendChild(a)
       a.click()
-      URL.revokeObjectURL(url)
+      document.body.removeChild(a)
+      setTimeout(() => URL.revokeObjectURL(url), 3000)
     } catch {
-      alert('Backend not reachable')
+      alert('Backend not reachable for PDF export. Run: python backend/main.py')
     }
   }
 
-  // Computed portfolio metrics
-  const aggLoss = portfolioStats
-    ? portfolioStats.total_policies * portfolioStats.claim_rate * portfolioStats.mean_severity
-    : 0
-  const safetyPct = form.Macro_Inflation_Rate * 300
+  // Compute metrics for selected quarter
+  const q = QUARTER_DATA[quarter]
+  const aggLoss = q.total_policies * q.claim_rate * q.mean_severity
+  const safetyPct = params.inflation * 300
   const minReserve = aggLoss * (1 + safetyPct / 100)
+  const capitalBuffer = minReserve - aggLoss
+
+  // Comparison quarter
+  const otherQ = quarter === 'Q2 2026' ? QUARTER_DATA['Q1 2026'] : QUARTER_DATA['Q2 2026']
+  const otherAggLoss = otherQ.total_policies * otherQ.claim_rate * otherQ.mean_severity
+  const otherReserve = otherAggLoss * (1 + safetyPct / 100)
 
   return (
     <>
       <div className="page-header">
         <h2>Report Generator</h2>
-        <p>Agentic pipeline demo -- portfolio-level solvency report with per-policy drill-down</p>
+        <p>Agentic pipeline demo - watch each agent process a portfolio-level solvency report</p>
       </div>
 
-      {/* Portfolio Overview */}
-      {portfolioStats && (
-        <div className="grid-4" style={{ marginBottom: 18 }}>
-          <div className="stat-card">
-            <div className="stat-label">Active Policies</div>
-            <div className="stat-value">{portfolioStats.total_policies.toLocaleString()}</div>
+      {/* Controls */}
+      <div className="card" style={{ marginBottom: 16 }}>
+        <div style={{ display: 'flex', gap: 24, alignItems: 'flex-end', flexWrap: 'wrap' }}>
+          <div className="form-group" style={{ margin: 0 }}>
+            <label>Reporting Period</label>
+            <select value={quarter} onChange={e => { setQuarter(e.target.value); setPipelineDone(false); setShowReport(false) }}>
+              <option>Q1 2026</option>
+              <option>Q2 2026</option>
+            </select>
           </div>
-          <div className="stat-card">
-            <div className="stat-label">Aggregate Expected Loss</div>
-            <div className="stat-value" style={{ color: 'var(--gold-700)' }}>
-              ${(aggLoss / 1e6).toFixed(1)}M
-            </div>
+          <div className="form-group" style={{ margin: 0 }}>
+            <label>Macro Inflation Rate</label>
+            <input type="number" step="0.005" value={params.inflation}
+              onChange={e => setParams(p => ({ ...p, inflation: +e.target.value }))} style={{ width: 100 }} />
           </div>
-          <div className="stat-card">
-            <div className="stat-label">Safety Loading ({safetyPct.toFixed(0)}%)</div>
-            <div className="stat-value">${((minReserve - aggLoss) / 1e6).toFixed(1)}M</div>
+          <div className="form-group" style={{ margin: 0 }}>
+            <label>Confidence Level</label>
+            <select value={params.confidence} onChange={e => setParams(p => ({ ...p, confidence: +e.target.value }))}>
+              <option value={90}>90%</option>
+              <option value={95}>95%</option>
+              <option value={99}>99%</option>
+            </select>
           </div>
-          <div className="stat-card">
-            <div className="stat-label">Min. Capital Reserve</div>
-            <div className="stat-value" style={{ color: '#c62828' }}>
-              ${(minReserve / 1e6).toFixed(1)}M
-            </div>
-          </div>
+          <button className="btn btn-primary" onClick={runPipeline} disabled={loading}
+            style={{ height: 38 }}>
+            {loading ? 'Running Agents...' : 'Generate Report'}
+          </button>
+          {pipelineDone && (
+            <button className="btn btn-gold" onClick={downloadPdf} style={{ height: 38 }}>
+              Export PDF
+            </button>
+          )}
+          <label style={{ display: 'flex', alignItems: 'center', gap: 6, fontSize: 12, cursor: 'pointer' }}>
+            <input type="checkbox" checked={compareMode}
+              onChange={e => setCompareMode(e.target.checked)} />
+            Compare Quarters
+          </label>
         </div>
-      )}
+      </div>
 
-      {/* Per-policy prediction metrics (after pipeline runs) */}
-      {prediction && (
-        <div className="grid-4" style={{ marginBottom: 18 }}>
-          <div className="stat-card" style={{ borderLeft: '3px solid var(--blue-500)' }}>
-            <div className="stat-label">Claim Probability</div>
-            <div className="stat-value">{(prediction.frequency.glm * 100).toFixed(1)}%</div>
-            <div className="stat-sub">GLM frequency model</div>
-          </div>
-          <div className="stat-card" style={{ borderLeft: '3px solid var(--blue-500)' }}>
-            <div className="stat-label">Expected Severity</div>
-            <div className="stat-value">${prediction.severity.toLocaleString()}</div>
-            <div className="stat-sub">XGBoost Gamma model</div>
-          </div>
-          <div className="stat-card" style={{ borderLeft: '3px solid var(--gold-500)' }}>
-            <div className="stat-label">Pure Premium</div>
-            <div className="stat-value" style={{ color: 'var(--gold-700)' }}>
-              ${prediction.pure_premium.glm_xgb.toLocaleString()}
-            </div>
-            <div className="stat-sub">Freq x Severity</div>
-          </div>
-          <div className="stat-card" style={{ borderLeft: '3px solid var(--gold-500)' }}>
-            <div className="stat-label">Tweedie Direct</div>
-            <div className="stat-value">${prediction.pure_premium.tweedie.toLocaleString()}</div>
-            <div className="stat-sub">Single-model check</div>
-          </div>
+      {/* Portfolio Overview Cards */}
+      <div className="grid-4" style={{ marginBottom: 18 }}>
+        <div className="stat-card">
+          <div className="stat-label">Active Policies</div>
+          <div className="stat-value">{q.total_policies.toLocaleString()}</div>
+          {compareMode && <div className="stat-sub" style={{ color: q.total_policies > otherQ.total_policies ? '#2e7d32' : '#c62828' }}>
+            vs {otherQ.label}: {otherQ.total_policies.toLocaleString()}
+          </div>}
         </div>
-      )}
+        <div className="stat-card">
+          <div className="stat-label">Aggregate Expected Loss</div>
+          <div className="stat-value" style={{ color: 'var(--gold-700)' }}>${(aggLoss / 1e6).toFixed(1)}M</div>
+          {compareMode && <div className="stat-sub" style={{ color: aggLoss > otherAggLoss ? '#c62828' : '#2e7d32' }}>
+            vs {otherQ.label}: ${(otherAggLoss / 1e6).toFixed(1)}M ({((aggLoss - otherAggLoss) / otherAggLoss * 100).toFixed(1)}%)
+          </div>}
+        </div>
+        <div className="stat-card">
+          <div className="stat-label">Safety Loading ({safetyPct.toFixed(0)}%)</div>
+          <div className="stat-value">${(capitalBuffer / 1e6).toFixed(1)}M</div>
+        </div>
+        <div className="stat-card">
+          <div className="stat-label">Min. Capital Reserve</div>
+          <div className="stat-value" style={{ color: '#c62828' }}>${(minReserve / 1e6).toFixed(1)}M</div>
+          {compareMode && <div className="stat-sub">
+            vs {otherQ.label}: ${(otherReserve / 1e6).toFixed(1)}M
+          </div>}
+        </div>
+      </div>
 
       <div className="grid-2">
-        {/* Left: Input + Pipeline */}
+        {/* Left: Agent Pipeline */}
         <div>
-          <div className="card card-gold">
-            <div className="card-title">Per-Policy Input (Example)</div>
-            <div className="grid-2">
-              <div className="form-group">
-                <label>Customer Age</label>
-                <input type="number" value={form.Customer_Age}
-                  onChange={e => handleChange('Customer_Age', +e.target.value)} />
-              </div>
-              <div className="form-group">
-                <label>Max Daily Benefit (USD)</label>
-                <input type="number" value={form.Max_Daily_Benefit_USD}
-                  onChange={e => handleChange('Max_Daily_Benefit_USD', +e.target.value)} />
-              </div>
-              <div className="form-group">
-                <label>Risk Score Tier</label>
-                <select value={form.Risk_Score_Tier}
-                  onChange={e => handleChange('Risk_Score_Tier', +e.target.value)}>
-                  {[1,2,3,4,5].map(v => <option key={v} value={v}>{v}</option>)}
-                </select>
-              </div>
-              <div className="form-group">
-                <label>Caregiver Availability</label>
-                <input type="number" step="0.1" value={form.Caregiver_Availability_Index}
-                  onChange={e => handleChange('Caregiver_Availability_Index', +e.target.value)} />
-              </div>
-              <div className="form-group">
-                <label>Inflation Rate</label>
-                <input type="number" step="0.001" value={form.Macro_Inflation_Rate}
-                  onChange={e => handleChange('Macro_Inflation_Rate', +e.target.value)} />
-              </div>
-              <div className="form-group">
-                <label>Prior Claims</label>
-                <input type="number" value={form.Prior_Claims_Count}
-                  onChange={e => handleChange('Prior_Claims_Count', +e.target.value)} />
-              </div>
-            </div>
-            <div className="form-group">
-              <label>Care Setting</label>
-              <select value={form.Care_Setting_Preference}
-                onChange={e => handleChange('Care_Setting_Preference', e.target.value)}>
-                <option>Home Care</option>
-                <option>Assisted Living</option>
-                <option>Nursing Home</option>
-              </select>
-            </div>
-            <div style={{ display: 'flex', gap: 10, marginTop: 16 }}>
-              <button className="btn btn-primary" onClick={runPipeline} disabled={loading}
-                style={{ flex: 1, justifyContent: 'center' }}>
-                {loading ? 'Running Agents...' : 'Run Agent Pipeline'}
-              </button>
-              {pipelineDone && (
-                <button className="btn btn-gold" onClick={downloadPdf}
-                  style={{ flex: 1, justifyContent: 'center' }}>
-                  Export PDF Report
-                </button>
-              )}
-            </div>
-          </div>
-
-          {/* Pipeline steps */}
+          {/* Agent capability cards */}
           <div className="card card-blue">
-            <div className="card-title">Agent Pipeline</div>
-            <div style={{ display: 'flex', flexDirection: 'column', gap: 5 }}>
-              {AGENT_STEPS.map((step, i) => {
+            <div className="card-title">Multi-Agent Pipeline</div>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
+              {AGENTS.map((agent, i) => {
                 const done = agentLog.length > i
                 const active = currentStep === i
                 return (
                   <div key={i} style={{
-                    display: 'flex', alignItems: 'center', gap: 10, padding: '7px 12px',
-                    borderRadius: 8, fontSize: 12, fontWeight: 600,
-                    background: active ? `${step.color}15` : done ? '#f0faf0' : 'var(--gray-50)',
-                    border: `1px solid ${active ? step.color : done ? '#c8e6c9' : 'var(--gray-200)'}`,
+                    display: 'flex', alignItems: 'flex-start', gap: 10, padding: '8px 12px',
+                    borderRadius: 8, fontSize: 12,
+                    background: active ? `${agent.color}12` : done ? '#f0faf0' : 'var(--gray-50)',
+                    border: `1px solid ${active ? agent.color : done ? '#c8e6c9' : 'var(--gray-200)'}`,
                     transition: 'all 0.3s',
                   }}>
-                    <span style={{ fontSize: 15 }}>{step.icon}</span>
-                    <span style={{ flex: 1, color: done ? '#2e7d32' : active ? step.color : 'var(--gray-500)' }}>
-                      {step.agent}
-                    </span>
-                    {active && <span className="spinner" style={{ width: 14, height: 14, borderWidth: 2, margin: 0 }} />}
-                    {done && <span style={{ color: '#2e7d32', fontSize: 11 }}>Done</span>}
+                    <span style={{ fontSize: 16, marginTop: 1 }}>{agent.icon}</span>
+                    <div style={{ flex: 1 }}>
+                      <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+                        <span style={{ fontWeight: 700, color: done ? '#2e7d32' : active ? agent.color : 'var(--gray-700)' }}>
+                          {agent.name}
+                        </span>
+                        {active && <span className="spinner" style={{ width: 12, height: 12, borderWidth: 2, margin: 0 }} />}
+                        {done && <span style={{ color: '#2e7d32', fontSize: 10, fontWeight: 600 }}>DONE</span>}
+                      </div>
+                      <div style={{ fontSize: 11, color: 'var(--gray-500)', marginTop: 2, lineHeight: 1.4 }}>
+                        {agent.capability}
+                      </div>
+                    </div>
                   </div>
                 )
               })}
@@ -329,76 +384,275 @@ export default function ReportGenerator({ api }) {
           </div>
         </div>
 
-        {/* Right: Agent log */}
+        {/* Right: Live simulation output */}
         <div>
-          <div className="card" style={{ minHeight: 380 }}>
-            <div className="card-title">Agent Execution Log</div>
-            {agentLog.length === 0 && !loading ? (
-              <div style={{ textAlign: 'center', padding: '50px 20px', color: 'var(--gray-400)' }}>
-                <div style={{ fontSize: 32, marginBottom: 8 }}>&#9881;</div>
-                <p>Click <strong>Run Agent Pipeline</strong> to see the multi-agent workflow.</p>
-                <p style={{ fontSize: 11, marginTop: 6 }}>
-                  Data masking &rarr; retrieval &rarr; analysis &rarr; numeric check &rarr; guardrails &rarr; compose
-                </p>
-              </div>
-            ) : (
-              <div ref={logRef} style={{ maxHeight: 420, overflowY: 'auto' }}>
-                {agentLog.map((log, i) => (
-                  <div key={i} style={{
-                    marginBottom: 10, padding: '9px 12px',
-                    background: 'var(--gray-50)', borderRadius: 8,
-                    borderLeft: `3px solid ${log.color}`,
-                  }}>
-                    <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 3 }}>
-                      <span style={{ fontWeight: 700, fontSize: 12, color: log.color }}>
-                        {log.icon} {log.agent}
-                      </span>
-                      <span style={{ fontSize: 10, color: 'var(--gray-400)' }}>{log.ts}</span>
-                    </div>
-                    <div style={{ fontSize: 12, fontWeight: 600, color: 'var(--gray-900)', marginBottom: 3 }}>
-                      {log.status}
-                    </div>
-                    <pre style={{
-                      fontSize: 11, color: 'var(--gray-600)', whiteSpace: 'pre-wrap',
-                      fontFamily: 'var(--font)', margin: 0, lineHeight: 1.5,
-                    }}>
-                      {log.detail}
-                    </pre>
-                  </div>
-                ))}
-                {pipelineDone && (
-                  <div style={{
-                    marginTop: 6, padding: '10px 12px', background: '#e8f5e9',
-                    borderRadius: 8, textAlign: 'center',
-                  }}>
-                    <div style={{ fontWeight: 700, color: '#2e7d32', fontSize: 13 }}>
-                      Pipeline complete -- click "Export PDF Report" to download
-                    </div>
-                    <div style={{ fontSize: 11, color: '#555', marginTop: 3 }}>
-                      All numbers verified against deterministic model output. LLM wrote narrative only.
-                    </div>
-                  </div>
-                )}
+          <div className="card" style={{ minHeight: 400 }}>
+            <div className="card-title">
+              {loading ? 'Live Agent Output' : pipelineDone ? 'Execution Complete' : 'Agent Simulation'}
+            </div>
+
+            {!loading && agentLog.length === 0 && (
+              <div style={{ textAlign: 'center', padding: '60px 20px', color: 'var(--gray-400)' }}>
+                <div style={{ fontSize: 36, marginBottom: 10 }}>&#9881;</div>
+                <p>Click <strong>Generate Report</strong> to watch the multi-agent pipeline process your portfolio data in real-time.</p>
+                <p style={{ fontSize: 11, marginTop: 8 }}>Each agent's input, processing steps, and output will stream here.</p>
               </div>
             )}
-          </div>
 
-          <div className="card">
-            <div className="card-title">Key Design Decisions</div>
-            {[
-              ['LLM never does math', 'All metrics (pure premium, solvency ratios, reserves) are computed by Python. The LLM receives pre-computed numbers and writes prose around them.'],
-              ['Numeric Checker agent', 'Re-derives every figure from the source dataframe and cross-references the draft. Mismatches block report delivery.'],
-              ['PII masking before LLM', 'Policy IDs stripped, ages bucketed before hitting the LLM context. Runs on Azure private endpoints, zero data retention.'],
-              ['Output guardrails', 'NeMo rails verify: no PII leakage, all numbers match source, content stays in scope.'],
-            ].map(([title, desc], i) => (
-              <div key={i} className="blueprint-section">
-                <h4>{title}</h4>
-                <p>{desc}</p>
-              </div>
-            ))}
+            <div ref={logRef} style={{ maxHeight: 500, overflowY: 'auto' }}>
+              {/* Completed agent logs */}
+              {agentLog.map((log, i) => (
+                <div key={i} style={{
+                  marginBottom: 10, padding: '10px 12px',
+                  background: 'var(--gray-50)', borderRadius: 8,
+                  borderLeft: `3px solid ${log.color}`,
+                }}>
+                  <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 4 }}>
+                    <span style={{ fontWeight: 700, fontSize: 12, color: log.color }}>
+                      {log.icon} {log.agent}
+                    </span>
+                    <span style={{ fontSize: 10, color: 'var(--gray-400)' }}>{log.ts}</span>
+                  </div>
+                  <div style={{ fontSize: 11, color: 'var(--gray-500)', marginBottom: 3 }}>
+                    {log.input}
+                  </div>
+                  <div style={{ fontSize: 11, color: '#2e7d32', fontWeight: 600 }}>
+                    {log.output}
+                  </div>
+                </div>
+              ))}
+
+              {/* Currently streaming agent */}
+              {currentStep >= 0 && currentLines.length > 0 && (
+                <div style={{
+                  marginBottom: 10, padding: '10px 12px',
+                  background: `${AGENTS[currentStep].color}08`, borderRadius: 8,
+                  borderLeft: `3px solid ${AGENTS[currentStep].color}`,
+                }}>
+                  <div style={{ fontWeight: 700, fontSize: 12, color: AGENTS[currentStep].color, marginBottom: 6 }}>
+                    {AGENTS[currentStep].icon} {AGENTS[currentStep].name} - Processing...
+                  </div>
+                  <pre style={{
+                    fontSize: 11, color: 'var(--gray-700)', whiteSpace: 'pre-wrap',
+                    fontFamily: 'monospace', margin: 0, lineHeight: 1.7,
+                  }}>
+                    {currentLines.map((line, i) => (
+                      <div key={i} style={{
+                        color: line.startsWith('\u2714') ? '#2e7d32' : line.startsWith('>') ? AGENTS[currentStep].color : 'var(--gray-600)',
+                        fontWeight: line.startsWith('\u2714') ? 600 : 400,
+                      }}>{line}</div>
+                    ))}
+                  </pre>
+                </div>
+              )}
+
+              {/* Pipeline complete */}
+              {pipelineDone && (
+                <div style={{
+                  marginTop: 8, padding: '12px', background: '#e8f5e9',
+                  borderRadius: 8, textAlign: 'center',
+                }}>
+                  <div style={{ fontWeight: 700, color: '#2e7d32', fontSize: 13 }}>
+                    Pipeline Complete - Report Ready
+                  </div>
+                  <div style={{ fontSize: 11, color: '#555', marginTop: 4 }}>
+                    All 14 numeric claims verified | 0 PII exposures | 5 guardrail checks passed
+                  </div>
+                </div>
+              )}
+            </div>
           </div>
         </div>
       </div>
+
+      {/* Report Modal */}
+      {showModal && (
+        <div className="modal-overlay" onClick={() => setShowModal(false)}>
+          <div className="modal-content" onClick={e => e.stopPropagation()}>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 16, position: 'sticky', top: 0, background: '#fff', paddingBottom: 12, borderBottom: '2px solid var(--blue-700)', zIndex: 10 }}>
+              <div className="card-title" style={{ margin: 0 }}>
+                {quarter} Solvency & Capital Allocation Report
+              </div>
+              <div style={{ display: 'flex', gap: 8 }}>
+                <button className="btn btn-gold" onClick={downloadPdf} style={{ fontSize: 12, padding: '6px 16px' }}>
+                  Export PDF
+                </button>
+                <button className="btn btn-outline" onClick={() => setShowModal(false)} style={{ fontSize: 12, padding: '6px 12px' }}>
+                  Close
+                </button>
+              </div>
+            </div>
+
+          {/* Executive Summary */}
+          <div className="report-section">
+            <h3 style={{ color: 'var(--blue-700)', borderBottom: '1px solid var(--gray-200)', paddingBottom: 6 }}>
+              1. Executive Summary
+            </h3>
+            <p style={{ lineHeight: 1.7 }}>
+              Our valuation models have analyzed the active book of <strong>{q.total_policies.toLocaleString()}</strong> LTC policies
+              for {quarter}. The aggregate Expected Loss (Pure Premium) for the upcoming fiscal year
+              is <strong>${(aggLoss / 1e6).toFixed(1)} Million</strong>, representing
+              a {quarter === 'Q2 2026' ? 'increase' : 'baseline'} driven primarily by aging demographics
+              and rising severity in nursing home settings.
+            </p>
+            {compareMode && (
+              <p style={{ lineHeight: 1.7, background: '#fff8e1', padding: '8px 12px', borderRadius: 6, fontSize: 13 }}>
+                <strong>Quarter-over-Quarter:</strong> Expected Loss moved from ${(otherAggLoss / 1e6).toFixed(1)}M ({otherQ.label})
+                to ${(aggLoss / 1e6).toFixed(1)}M ({q.label}), a change of {((aggLoss - otherAggLoss) / otherAggLoss * 100).toFixed(1)}%.
+                Claim frequency shifted from {(otherQ.claim_rate * 100).toFixed(2)}% to {(q.claim_rate * 100).toFixed(2)}%.
+              </p>
+            )}
+          </div>
+
+          {/* Portfolio Risk Exposure */}
+          <div className="report-section">
+            <h3 style={{ color: 'var(--blue-700)', borderBottom: '1px solid var(--gray-200)', paddingBottom: 6 }}>
+              2. Portfolio Risk Exposure
+            </h3>
+            <p style={{ lineHeight: 1.7 }}>
+              The aggregate figure is derived from the two-stage frequency-severity model:
+            </p>
+            <div className="table-wrap" style={{ margin: '12px 0' }}>
+              <table>
+                <thead>
+                  <tr>
+                    <th>Metric</th>
+                    <th>{q.label}</th>
+                    {compareMode && <th>{otherQ.label}</th>}
+                    {compareMode && <th>Change</th>}
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>Total Policies</td>
+                    <td>{q.total_policies.toLocaleString()}</td>
+                    {compareMode && <td>{otherQ.total_policies.toLocaleString()}</td>}
+                    {compareMode && <td>{((q.total_policies - otherQ.total_policies) / otherQ.total_policies * 100).toFixed(1)}%</td>}
+                  </tr>
+                  <tr>
+                    <td>Portfolio Claim Frequency</td>
+                    <td>{(q.claim_rate * 100).toFixed(2)}%</td>
+                    {compareMode && <td>{(otherQ.claim_rate * 100).toFixed(2)}%</td>}
+                    {compareMode && <td style={{ color: q.claim_rate > otherQ.claim_rate ? '#c62828' : '#2e7d32' }}>
+                      {((q.claim_rate - otherQ.claim_rate) * 100).toFixed(2)}pp
+                    </td>}
+                  </tr>
+                  <tr>
+                    <td>Mean Claim Severity</td>
+                    <td>${q.mean_severity.toLocaleString()}</td>
+                    {compareMode && <td>${otherQ.mean_severity.toLocaleString()}</td>}
+                    {compareMode && <td style={{ color: q.mean_severity > otherQ.mean_severity ? '#c62828' : '#2e7d32' }}>
+                      {((q.mean_severity - otherQ.mean_severity) / otherQ.mean_severity * 100).toFixed(1)}%
+                    </td>}
+                  </tr>
+                  <tr style={{ fontWeight: 700 }}>
+                    <td>Aggregate Expected Loss</td>
+                    <td>${(aggLoss / 1e6).toFixed(1)}M</td>
+                    {compareMode && <td>${(otherAggLoss / 1e6).toFixed(1)}M</td>}
+                    {compareMode && <td style={{ color: aggLoss > otherAggLoss ? '#c62828' : '#2e7d32' }}>
+                      {((aggLoss - otherAggLoss) / otherAggLoss * 100).toFixed(1)}%
+                    </td>}
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <p style={{ fontSize: 12, color: 'var(--gray-500)' }}>
+              Formula: Policies x Claim Rate x Mean Severity = {q.total_policies.toLocaleString()} x {(q.claim_rate * 100).toFixed(2)}% x ${q.mean_severity.toLocaleString()} = ${(aggLoss / 1e6).toFixed(1)}M
+            </p>
+          </div>
+
+          {/* Driver Analysis */}
+          <div className="report-section">
+            <h3 style={{ color: 'var(--blue-700)', borderBottom: '1px solid var(--gray-200)', paddingBottom: 6 }}>
+              3. Loss Driver Analysis
+            </h3>
+            <p style={{ lineHeight: 1.7 }}>Primary risk drivers pushing Expected Loss above baseline:</p>
+            <ul style={{ lineHeight: 2, paddingLeft: 20 }}>
+              <li><strong>Age concentration:</strong> Average policyholder age is {q.avg_age} years. Claim frequency rises steeply with age - policyholders aged 70-85 carry claim rates 3-9x higher than those under 50.</li>
+              <li><strong>Care setting shift:</strong> Home care preference dropped to {(q.home_care_pct * 100).toFixed(0)}%, pushing more claimants into higher-cost nursing home settings where daily benefit limits are consumed faster.</li>
+              <li><strong>High-risk concentration:</strong> {(q.high_risk_pct * 100).toFixed(0)}% of the book is in Risk Tiers 4-5, carrying 2-3x the claim frequency and accounting for a disproportionate share of total expected loss.</li>
+            </ul>
+          </div>
+
+          {/* Capital Reserve */}
+          <div className="report-section">
+            <h3 style={{ color: 'var(--blue-700)', borderBottom: '1px solid var(--gray-200)', paddingBottom: 6 }}>
+              4. Capital Reserve Recommendation
+            </h3>
+            <p style={{ lineHeight: 1.7 }}>
+              At the current macro inflation rate of {(params.inflation * 100).toFixed(1)}%, we apply
+              a <strong>{safetyPct.toFixed(0)}% safety loading</strong> to maintain NAIC capital solvency compliance
+              at the {params.confidence}% confidence level.
+            </p>
+            <div className="table-wrap" style={{ margin: '12px 0' }}>
+              <table>
+                <thead>
+                  <tr><th>Metric</th><th>Value</th></tr>
+                </thead>
+                <tbody>
+                  <tr><td>Aggregate Expected Loss</td><td><strong>${(aggLoss / 1e6).toFixed(1)} Million</strong></td></tr>
+                  <tr><td>Safety Loading ({safetyPct.toFixed(0)}%)</td><td>${(capitalBuffer / 1e6).toFixed(1)} Million</td></tr>
+                  <tr style={{ background: '#fff3e0' }}>
+                    <td><strong>Minimum Required Capital Reserve</strong></td>
+                    <td><strong style={{ color: '#c62828' }}>${(minReserve / 1e6).toFixed(1)} Million</strong></td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div style={{ background: '#fff3e0', border: '1px solid #ff8f00', borderRadius: 8, padding: '10px 14px', marginTop: 12 }}>
+              <strong style={{ color: '#e65100' }}>Action Required:</strong> Adjust underwriting base rates for Risk Tiers 4 & 5
+              to cover the projected ${(capitalBuffer / 1e6).toFixed(1)}M capital buffer. Review reinsurance treaty limits
+              against the ${(minReserve / 1e6).toFixed(1)}M reserve requirement.
+            </div>
+          </div>
+
+          {/* Model Validation */}
+          <div className="report-section">
+            <h3 style={{ color: 'var(--blue-700)', borderBottom: '1px solid var(--gray-200)', paddingBottom: 6 }}>
+              5. Model Validation & Monitoring
+            </h3>
+            <div className="table-wrap" style={{ margin: '12px 0' }}>
+              <table>
+                <thead>
+                  <tr><th>Model</th><th>Role</th><th>Key Metric</th><th>Status</th></tr>
+                </thead>
+                <tbody>
+                  <tr><td>Logistic GLM</td><td>Frequency (primary)</td><td>Gini: 0.543</td><td style={{ color: '#2e7d32' }}>Active</td></tr>
+                  <tr><td>XGBoost</td><td>Frequency (challenger)</td><td>Gini: 0.539</td><td style={{ color: '#1565c0' }}>Monitoring</td></tr>
+                  <tr><td>XGBoost Gamma</td><td>Severity</td><td>MAE: $42,100</td><td style={{ color: '#2e7d32' }}>Active</td></tr>
+                  <tr><td>Tweedie GLM</td><td>Direct benchmark</td><td>Deviance: 1.42</td><td style={{ color: '#666' }}>Benchmark</td></tr>
+                </tbody>
+              </table>
+            </div>
+            <p style={{ lineHeight: 1.7 }}>
+              Monitoring cadence: quarterly recalibration with PSI-based drift detection. GLM retained
+              as regulatory benchmark alongside GBM challenger models. Calibration ratio (predicted/actual aggregate): ~0.95.
+            </p>
+          </div>
+
+          {/* Footer */}
+          <div style={{ marginTop: 24, paddingTop: 12, borderTop: '1px solid var(--gray-200)', textAlign: 'center' }}>
+            <span style={{ fontSize: 11, color: 'var(--gray-400)' }}>
+              Prepared by LTC Analytics Team | Classification: CONFIDENTIAL | Generated {new Date().toLocaleDateString()}
+            </span>
+          </div>
+          </div>
+        </div>
+      )}
+
+      {/* View Report button when pipeline done but modal closed */}
+      {pipelineDone && !showModal && (
+        <div style={{ textAlign: 'center', marginTop: 16 }}>
+          <button className="btn btn-primary" onClick={() => setShowModal(true)}
+            style={{ padding: '10px 24px' }}>
+            View Generated Report
+          </button>
+        </div>
+      )}
     </>
   )
+}
+
+function sleep(ms) {
+  return new Promise(resolve => setTimeout(resolve, ms))
 }

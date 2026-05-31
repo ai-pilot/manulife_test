@@ -230,6 +230,55 @@ def train_tweedie(X_train, y_train):
     return model, best
 
 
+def train_tweedie_xgb(X_train, y_train):
+    """
+    XGBoost with Tweedie objective (reg:tweedie). Handles zero-inflated
+    continuous targets directly using gradient boosted trees — combines
+    the power of tree-based models with the Tweedie distribution.
+    Grid search over tweedie_variance_power, max_depth, learning_rate.
+    """
+    param_grid = {
+        "tweedie_variance_power": [1.5, 1.6, 1.7, 1.8, 1.9],
+        "max_depth": [4, 5, 6],
+        "learning_rate": [0.03, 0.05],
+        "n_estimators": [200, 300],
+    }
+    base = xgb.XGBRegressor(
+        objective="reg:tweedie",
+        tree_method="hist",
+        random_state=RANDOM_STATE,
+        verbosity=0,
+    )
+    model, best = _grid_search(
+        base, param_grid, X_train, y_train,
+        scoring="neg_mean_absolute_error",
+    )
+    return model, best
+
+
+def train_tweedie_lgbm(X_train, y_train):
+    """
+    LightGBM with Tweedie objective. Fast histogram-based boosting
+    for direct pure premium estimation.
+    """
+    param_grid = {
+        "tweedie_variance_power": [1.5, 1.6, 1.7, 1.8],
+        "num_leaves": [31, 50],
+        "learning_rate": [0.03, 0.05],
+        "n_estimators": [200, 300],
+    }
+    base = lgb.LGBMRegressor(
+        objective="tweedie",
+        random_state=RANDOM_STATE,
+        verbosity=-1,
+    )
+    model, best = _grid_search(
+        base, param_grid, X_train, y_train,
+        scoring="neg_mean_absolute_error",
+    )
+    return model, best
+
+
 # ---------------------------------------------------------------------------
 # 5. EVALUATION HELPERS
 # ---------------------------------------------------------------------------

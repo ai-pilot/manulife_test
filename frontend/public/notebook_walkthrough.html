@@ -7803,8 +7803,8 @@ a.anchor-link {
 <div class="jp-InputPrompt jp-InputArea-prompt">In [ ]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-python"><pre><span></span><span class="c1"># Install required packages (run once)</span>
-<span class="o">%</span><span class="n">pip</span> <span class="n">install</span> <span class="n">numpy</span> <span class="n">pandas</span> <span class="n">scikit</span><span class="o">-</span><span class="n">learn</span> <span class="n">xgboost</span> <span class="n">lightgbm</span> <span class="n">catboost</span> <span class="n">plotly</span> <span class="o">-</span><span class="n">q</span>
+<div class="highlight hl-ipython3"><pre><span></span><span class="c1"># Install required packages (run once)</span>
+<span class="o">%</span><span class="k">pip</span> install numpy pandas scikit-learn xgboost lightgbm catboost plotly -q
 </pre></div>
 </div>
 </div>
@@ -7842,15 +7842,15 @@ a.anchor-link {
 </div>
 </div>
 </div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs" id="cell-id=0f0b8bf6">
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=0f0b8bf6">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [ ]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [1]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-python"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<div class="highlight hl-ipython3"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">plotly.express</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">px</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">plotly.graph_objects</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">go</span>
@@ -7879,6 +7879,20 @@ a.anchor-link {
 </div>
 </div>
 </div>
+<div class="jp-Cell-outputWrapper">
+<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
+</div>
+<div class="jp-OutputArea jp-Cell-outputArea">
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
+<pre>Dataset: 50,000 policies | Train: 37,500 | Test: 12,500
+Features (13): ['Customer_Age', 'Max_Daily_Benefit_USD', 'Risk_Score_Tier', 'Caregiver_Availability_Index', 'Macro_Inflation_Rate', 'Prior_Claims_Count', 'Age_x_Risk', 'High_Risk_Flag', 'Claims_Per_Year', 'Log_Benefit', 'Low_Caregiver_x_Age', 'Setting_Home Care', 'Setting_Nursing Home']
+</pre>
+</div>
+</div>
+</div>
+</div>
 </div>
 <div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=088d0a11">
 <div class="jp-Cell-inputWrapper" tabindex="0">
@@ -7890,15 +7904,15 @@ a.anchor-link {
 </div>
 </div>
 </div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs" id="cell-id=9e996225">
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=9e996225">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [ ]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [2]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-python"><pre><span></span><span class="c1"># Data quality &amp; key statistics</span>
+<div class="highlight hl-ipython3"><pre><span></span><span class="c1"># Data quality &amp; key statistics</span>
 <span class="nb">print</span><span class="p">(</span><span class="s2">"=== Data Quality ==="</span><span class="p">)</span>
 <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Missing values: </span><span class="si">{</span><span class="n">df</span><span class="o">.</span><span class="n">isna</span><span class="p">()</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
 <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Claim=1 but payout=0: </span><span class="si">{</span><span class="p">((</span><span class="n">df</span><span class="o">.</span><span class="n">Claim_Occurred</span><span class="o">==</span><span class="mi">1</span><span class="p">)</span><span class="o">&amp;</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">Total_LTC_Payout_USD</span><span class="o">==</span><span class="mi">0</span><span class="p">))</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
@@ -7915,15 +7929,46 @@ a.anchor-link {
 </div>
 </div>
 </div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs" id="cell-id=6a0175dc">
+<div class="jp-Cell-outputWrapper">
+<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
+</div>
+<div class="jp-OutputArea jp-Cell-outputArea">
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
+<pre>=== Data Quality ===
+Missing values: 0
+Claim=1 but payout=0: 0
+Claim=0 but payout&gt;0: 0
+
+=== Key Statistics ===
+Overall claim frequency : 13.94%
+Share of $0 payouts  : 86.06%
+
+Severity among claimants (USD):
+count       6,972.0000
+mean      288,869.1206
+std       226,714.9225
+min         9,289.6600
+25%       134,990.9775
+50%       230,337.5200
+75%       371,899.3650
+max     3,185,324.0500
+Name: Total_LTC_Payout_USD, dtype: float64
+</pre>
+</div>
+</div>
+</div>
+</div>
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=6a0175dc">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [ ]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [3]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-python"><pre><span></span><span class="c1"># Visualize the zero-inflation and severity distribution</span>
+<div class="highlight hl-ipython3"><pre><span></span><span class="c1"># Visualize the zero-inflation and severity distribution</span>
 <span class="n">sev</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">df</span><span class="o">.</span><span class="n">Claim_Occurred</span> <span class="o">==</span> <span class="mi">1</span><span class="p">,</span> <span class="s2">"Total_LTC_Payout_USD"</span><span class="p">]</span>
 
 <span class="n">fig</span> <span class="o">=</span> <span class="n">make_subplots</span><span class="p">(</span><span class="n">rows</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">cols</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">subplot_titles</span><span class="o">=</span><span class="p">[</span>
@@ -7945,16 +7990,25 @@ a.anchor-link {
 </div>
 </div>
 </div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs" id="cell-id=30f4bd52">
+<div class="jp-Cell-outputWrapper">
+<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
+</div>
+<div class="jp-OutputArea jp-Cell-outputArea">
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+</div>
+</div>
+</div>
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=30f4bd52">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [ ]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [4]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-python"><pre><span></span><span class="c1"># Risk drivers: claim frequency by key segments</span>
-<span class="k">for</span> <span class="n">col</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">"Risk_Score_Tier"</span><span class="p">,</span> <span class="s2">"Care_Setting_Preference"</span><span class="p">]:</span>
+<div class="highlight hl-ipython3"><pre><span></span><span class="c1"># Risk drivers: claim frequency by key segments</span>
+<span class="k">for</span> <span class="n">col</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">"Risk_Score_Tier"</span><span class="p">,</span> <span class="s2">"Care_Setting_Preference"</span><span class="p">,</span><span class="s2">"Prior_Claims_Count"</span><span class="p">]:</span>
  <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="se">\n</span><span class="s2">Claim frequency by </span><span class="si">{</span><span class="n">col</span><span class="si">}</span><span class="s2">:"</span><span class="p">)</span>
  <span class="nb">print</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="n">col</span><span class="p">)</span><span class="o">.</span><span class="n">Claim_Occurred</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="n">ascending</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span><span class="o">.</span><span class="n">map</span><span class="p">(</span><span class="k">lambda</span> <span class="n">v</span><span class="p">:</span> <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">v</span><span class="si">:</span><span class="s2">.2%</span><span class="si">}</span><span class="s2">"</span><span class="p">))</span>
 
@@ -7963,6 +8017,50 @@ a.anchor-link {
 <span class="nb">print</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s2">"_AgeBand"</span><span class="p">)</span><span class="o">.</span><span class="n">Claim_Occurred</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span><span class="o">.</span><span class="n">map</span><span class="p">(</span><span class="k">lambda</span> <span class="n">v</span><span class="p">:</span> <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">v</span><span class="si">:</span><span class="s2">.2%</span><span class="si">}</span><span class="s2">"</span><span class="p">))</span>
 <span class="n">df</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="s2">"_AgeBand"</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 </pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell-outputWrapper">
+<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
+</div>
+<div class="jp-OutputArea jp-Cell-outputArea">
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
+<pre>
+Claim frequency by Risk_Score_Tier:
+Risk_Score_Tier
+5    23.47%
+4    19.19%
+3    14.87%
+2    12.36%
+1     9.18%
+Name: Claim_Occurred, dtype: object
+
+Claim frequency by Care_Setting_Preference:
+Care_Setting_Preference
+Nursing Home       14.51%
+Home Care          14.08%
+Assisted Living    13.50%
+Name: Claim_Occurred, dtype: object
+
+Claim frequency by Prior_Claims_Count:
+Prior_Claims_Count
+2    26.11%
+1    18.85%
+0    11.85%
+Name: Claim_Occurred, dtype: object
+
+Claim frequency by age band:
+_AgeBand
+(39, 50]     3.56%
+(50, 60]     7.29%
+(60, 70]    13.45%
+(70, 80]    23.01%
+(80, 86]    33.43%
+Name: Claim_Occurred, dtype: object
+</pre>
 </div>
 </div>
 </div>
@@ -7985,15 +8083,15 @@ a.anchor-link {
 </div>
 </div>
 </div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs" id="cell-id=827dbe88">
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=827dbe88">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [ ]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [5]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-python"><pre><span></span><span class="c1"># Prepare frequency targets</span>
+<div class="highlight hl-ipython3"><pre><span></span><span class="c1"># Prepare frequency targets</span>
 <span class="n">X_train</span><span class="p">,</span> <span class="n">X_test</span> <span class="o">=</span> <span class="n">X</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">idx_tr</span><span class="p">],</span> <span class="n">X</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">idx_te</span><span class="p">]</span>
 <span class="n">yf_tr</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">idx_tr</span><span class="p">,</span> <span class="s2">"Claim_Occurred"</span><span class="p">]</span>
 <span class="n">yf_te</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">idx_te</span><span class="p">,</span> <span class="s2">"Claim_Occurred"</span><span class="p">]</span>
@@ -8033,15 +8131,47 @@ a.anchor-link {
 </div>
 </div>
 </div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs" id="cell-id=4d949d8c">
+<div class="jp-Cell-outputWrapper">
+<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
+</div>
+<div class="jp-OutputArea jp-Cell-outputArea">
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
+<pre>Training 5 frequency models with grid search...
+============================================================
+
+[1/5] Logistic GLM...
+  No grid search needed (baseline)
+
+[2/5] XGBoost (grid search)...
+  Best params: {'learning_rate': 0.05, 'max_depth': 3, 'n_estimators': 200}
+
+[3/5] LightGBM (grid search)...
+  Best params: {'learning_rate': 0.05, 'max_depth': 3, 'n_estimators': 200, 'num_leaves': 15}
+
+[4/5] CatBoost (grid search)...
+  Best params: {'depth': 4, 'iterations': 200, 'learning_rate': 0.05}
+
+[5/5] Random Forest (grid search)...
+  Best params: {'max_depth': 5, 'min_samples_leaf': 10, 'n_estimators': 300}
+
+============================================================
+All frequency models trained.
+</pre>
+</div>
+</div>
+</div>
+</div>
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=4d949d8c">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [ ]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [6]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-python"><pre><span></span><span class="c1"># Evaluate all frequency models</span>
+<div class="highlight hl-ipython3"><pre><span></span><span class="c1"># Evaluate all frequency models</span>
 <span class="n">freq_models</span> <span class="o">=</span> <span class="p">{</span>
  <span class="s2">"GLM (Logistic)"</span><span class="p">:</span> <span class="n">freq_glm</span><span class="p">,</span>
  <span class="s2">"XGBoost"</span><span class="p">:</span> <span class="n">freq_xgb</span><span class="p">,</span>
@@ -8066,15 +8196,38 @@ a.anchor-link {
 </div>
 </div>
 </div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs" id="cell-id=c45f0162">
+<div class="jp-Cell-outputWrapper">
+<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
+</div>
+<div class="jp-OutputArea jp-Cell-outputArea">
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
+<pre>=== Frequency Model Comparison ===
+
+                  AUC   Gini  Pred_Freq  Actual_Freq
+Model                                               
+GLM (Logistic) 0.7714 0.5427     0.1406       0.1394
+XGBoost        0.7686 0.5373     0.1399       0.1394
+LightGBM       0.7690 0.5380     0.1401       0.1394
+CatBoost       0.7697 0.5394     0.1402       0.1394
+Random Forest  0.7670 0.5340     0.1403       0.1394
+
+Actual test frequency: 0.1394
+</pre>
+</div>
+</div>
+</div>
+</div>
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=c45f0162">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [ ]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [7]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-python"><pre><span></span><span class="c1"># Visual comparison of frequency Gini scores (Plotly)</span>
+<div class="highlight hl-ipython3"><pre><span></span><span class="c1"># Visual comparison of frequency Gini scores (Plotly)</span>
 <span class="n">freq_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">freq_results</span><span class="p">)</span>
 <span class="n">fig</span> <span class="o">=</span> <span class="n">px</span><span class="o">.</span><span class="n">bar</span><span class="p">(</span><span class="n">freq_df</span><span class="p">,</span> <span class="n">x</span><span class="o">=</span><span class="s2">"Model"</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="s2">"Gini"</span><span class="p">,</span> <span class="n">text</span><span class="o">=</span><span class="s2">"Gini"</span><span class="p">,</span>
     <span class="n">color_discrete_sequence</span><span class="o">=</span><span class="p">[</span><span class="s2">"#1f6f8b"</span><span class="p">],</span>
@@ -8084,6 +8237,15 @@ a.anchor-link {
 <span class="n">fig</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
 </div>
+</div>
+</div>
+</div>
+<div class="jp-Cell-outputWrapper">
+<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
+</div>
+<div class="jp-OutputArea jp-Cell-outputArea">
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 </div>
 </div>
 </div>
@@ -8099,15 +8261,15 @@ a.anchor-link {
 </div>
 </div>
 </div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs" id="cell-id=5cfda27c">
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=5cfda27c">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [ ]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [8]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-python"><pre><span></span><span class="c1"># Prepare severity targets (claimants only)</span>
+<div class="highlight hl-ipython3"><pre><span></span><span class="c1"># Prepare severity targets (claimants only)</span>
 <span class="n">clm_tr</span> <span class="o">=</span> <span class="n">idx_tr</span><span class="p">[</span><span class="n">df</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">idx_tr</span><span class="p">,</span> <span class="s2">"Claim_Occurred"</span><span class="p">]</span> <span class="o">==</span> <span class="mi">1</span><span class="p">]</span>
 <span class="n">clm_te</span> <span class="o">=</span> <span class="n">idx_te</span><span class="p">[</span><span class="n">df</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">idx_te</span><span class="p">,</span> <span class="s2">"Claim_Occurred"</span><span class="p">]</span> <span class="o">==</span> <span class="mi">1</span><span class="p">]</span>
 <span class="n">ys_tr</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">clm_tr</span><span class="p">,</span> <span class="s2">"Total_LTC_Payout_USD"</span><span class="p">]</span>
@@ -8144,15 +8306,46 @@ a.anchor-link {
 </div>
 </div>
 </div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs" id="cell-id=cc0fb3f6">
+<div class="jp-Cell-outputWrapper">
+<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
+</div>
+<div class="jp-OutputArea jp-Cell-outputArea">
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
+<pre>Severity train: 5,229 claimants | Test: 1,743 claimants
+
+Training 4 severity models with grid search...
+============================================================
+
+[1/4] XGBoost Gamma...
+  Best params: {'learning_rate': 0.05, 'max_depth': 3, 'n_estimators': 200}
+
+[2/4] LightGBM Gamma...
+  Best params: {'learning_rate': 0.05, 'max_depth': 3, 'n_estimators': 200, 'num_leaves': 15}
+
+[3/4] CatBoost...
+  Best params: {'depth': 4, 'iterations': 200, 'learning_rate': 0.05}
+
+[4/4] Random Forest...
+  Best params: {'max_depth': 5, 'min_samples_leaf': 10, 'n_estimators': 300}
+
+============================================================
+All severity models trained.
+</pre>
+</div>
+</div>
+</div>
+</div>
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=cc0fb3f6">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [ ]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [9]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-python"><pre><span></span><span class="c1"># Evaluate all severity models</span>
+<div class="highlight hl-ipython3"><pre><span></span><span class="c1"># Evaluate all severity models</span>
 <span class="n">sev_models</span> <span class="o">=</span> <span class="p">{</span>
  <span class="s2">"XGBoost (Gamma)"</span><span class="p">:</span> <span class="n">sev_xgb</span><span class="p">,</span>
  <span class="s2">"LightGBM (Gamma)"</span><span class="p">:</span> <span class="n">sev_lgbm</span><span class="p">,</span>
@@ -8175,15 +8368,35 @@ a.anchor-link {
 </div>
 </div>
 </div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs" id="cell-id=55b85460">
+<div class="jp-Cell-outputWrapper">
+<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
+</div>
+<div class="jp-OutputArea jp-Cell-outputArea">
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
+<pre>=== Severity Model Comparison ===
+
+                         RMSE          MAE  Mean_Actual
+Model                                                  
+XGBoost (Gamma)  177,438.0000 120,041.0000 300,113.0000
+LightGBM (Gamma) 177,425.0000 120,208.0000 300,113.0000
+CatBoost         176,472.0000 120,629.0000 300,113.0000
+Random Forest    178,413.0000 122,370.0000 300,113.0000
+</pre>
+</div>
+</div>
+</div>
+</div>
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=55b85460">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [ ]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [10]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-python"><pre><span></span><span class="c1"># Visual comparison of severity MAE (Plotly)</span>
+<div class="highlight hl-ipython3"><pre><span></span><span class="c1"># Visual comparison of severity MAE (Plotly)</span>
 <span class="n">sev_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">sev_results</span><span class="p">)</span>
 <span class="n">fig</span> <span class="o">=</span> <span class="n">px</span><span class="o">.</span><span class="n">bar</span><span class="p">(</span><span class="n">sev_df</span><span class="p">,</span> <span class="n">x</span><span class="o">=</span><span class="s2">"Model"</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="s2">"MAE"</span><span class="p">,</span> <span class="n">text</span><span class="o">=</span><span class="s2">"MAE"</span><span class="p">,</span>
     <span class="n">color_discrete_sequence</span><span class="o">=</span><span class="p">[</span><span class="s2">"#d4a843"</span><span class="p">],</span>
@@ -8193,6 +8406,15 @@ a.anchor-link {
 <span class="n">fig</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
 </div>
+</div>
+</div>
+</div>
+<div class="jp-Cell-outputWrapper">
+<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
+</div>
+<div class="jp-OutputArea jp-Cell-outputArea">
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 </div>
 </div>
 </div>
@@ -8215,15 +8437,15 @@ a.anchor-link {
 </div>
 </div>
 </div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs" id="cell-id=87fbe158">
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=87fbe158">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [ ]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [11]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-python"><pre><span></span><span class="c1"># Train Tweedie models on full target (including zeros)</span>
+<div class="highlight hl-ipython3"><pre><span></span><span class="c1"># Train Tweedie models on full target (including zeros)</span>
 <span class="n">y_loss_tr</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">idx_tr</span><span class="p">,</span> <span class="s2">"Total_LTC_Payout_USD"</span><span class="p">]</span>
 <span class="n">y_loss_te</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">idx_te</span><span class="p">,</span> <span class="s2">"Total_LTC_Payout_USD"</span><span class="p">]</span>
 
@@ -8272,6 +8494,45 @@ a.anchor-link {
 </div>
 </div>
 </div>
+<div class="jp-Cell-outputWrapper">
+<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
+</div>
+<div class="jp-OutputArea jp-Cell-outputArea">
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
+<pre>Training 3 Tweedie models (direct pure premium)...
+============================================================
+
+[1/3] Tweedie GLM (grid search over power &amp; alpha)...
+  Best params: {'alpha': 10.0, 'power': 1.5}
+
+[2/3] XGBoost Tweedie (grid search)...
+  Best params: {'learning_rate': 0.05, 'max_depth': 6, 'n_estimators': 300, 'tweedie_variance_power': 1.7}
+
+[3/3] LightGBM Tweedie (grid search)...
+  Best params: {'learning_rate': 0.05, 'n_estimators': 300, 'num_leaves': 50, 'tweedie_variance_power': 1.7}
+
+============================================================
+
+Tweedie GLM:
+ Calibration Ratio : 0.9800
+ Normalized Gini : 0.6780
+
+Tweedie XGBoost:
+ Calibration Ratio : 0.8023
+ Normalized Gini : 0.6461
+
+Tweedie LightGBM:
+ Calibration Ratio : 0.7439
+ Normalized Gini : 0.6389
+
+Best single-model Tweedie: Tweedie GLM (Gini=0.6780)
+</pre>
+</div>
+</div>
+</div>
+</div>
 </div>
 <div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=91e4789c">
 <div class="jp-Cell-inputWrapper" tabindex="0">
@@ -8284,15 +8545,15 @@ a.anchor-link {
 </div>
 </div>
 </div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs" id="cell-id=05afacd9">
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=05afacd9">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [ ]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [12]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-python"><pre><span></span><span class="c1"># Compute pure premium for all freq x sev combinations</span>
+<div class="highlight hl-ipython3"><pre><span></span><span class="c1"># Compute pure premium for all freq x sev combinations</span>
 <span class="n">actual_loss</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">idx_te</span><span class="p">,</span> <span class="s2">"Total_LTC_Payout_USD"</span><span class="p">]</span><span class="o">.</span><span class="n">values</span>
 <span class="n">pp_results</span> <span class="o">=</span> <span class="p">[]</span>
 
@@ -8328,19 +8589,86 @@ a.anchor-link {
 </div>
 </div>
 </div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs" id="cell-id=5cf05b14">
+<div class="jp-Cell-outputWrapper">
+<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
+</div>
+<div class="jp-OutputArea jp-Cell-outputArea">
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
+<pre>=== Pure Premium - Full Model Comparison ===
+
+                                   Total_Predicted     Total_Actual  Calibration_Ratio  Normalized_Gini
+Model                                                                                                  
+GLM (Logistic) + CatBoost         503,773,412.0000 523,096,888.0000             0.9631           0.6812
+GLM (Logistic) + LightGBM (Gamma) 497,222,510.0000 523,096,888.0000             0.9505           0.6805
+GLM (Logistic) + XGBoost (Gamma)  497,179,436.0000 523,096,888.0000             0.9505           0.6803
+CatBoost + CatBoost               500,214,015.0000 523,096,888.0000             0.9563           0.6801
+CatBoost + LightGBM (Gamma)       493,423,161.0000 523,096,888.0000             0.9433           0.6795
+CatBoost + XGBoost (Gamma)        493,348,220.0000 523,096,888.0000             0.9431           0.6793
+XGBoost + CatBoost                499,601,987.0000 523,096,888.0000             0.9551           0.6790
+GLM (Logistic) + Random Forest    503,949,730.0000 523,096,888.0000             0.9634           0.6788
+LightGBM + CatBoost               499,679,312.0000 523,096,888.0000             0.9552           0.6787
+XGBoost + LightGBM (Gamma)        493,142,020.0000 523,096,888.0000             0.9427           0.6782
+XGBoost + XGBoost (Gamma)         492,990,144.0000 523,096,888.0000             0.9424           0.6781
+Tweedie GLM                       512,649,359.0000 523,096,888.0000             0.9800           0.6780
+LightGBM + LightGBM (Gamma)       493,190,475.0000 523,096,888.0000             0.9428           0.6779
+LightGBM + XGBoost (Gamma)        493,073,325.0000 523,096,888.0000             0.9426           0.6777
+CatBoost + Random Forest          500,490,622.0000 523,096,888.0000             0.9568           0.6776
+Random Forest + CatBoost          476,055,570.0000 523,096,888.0000             0.9101           0.6768
+Random Forest + XGBoost (Gamma)   468,827,564.0000 523,096,888.0000             0.8963           0.6765
+Random Forest + LightGBM (Gamma)  469,280,558.0000 523,096,888.0000             0.8971           0.6764
+XGBoost + Random Forest           499,872,813.0000 523,096,888.0000             0.9556           0.6764
+LightGBM + Random Forest          500,166,219.0000 523,096,888.0000             0.9562           0.6760
+Random Forest + Random Forest     477,066,831.0000 523,096,888.0000             0.9120           0.6739
+Tweedie XGBoost                   419,679,808.0000 523,096,888.0000             0.8023           0.6461
+Tweedie LightGBM                  389,153,309.0000 523,096,888.0000             0.7439           0.6389
+
+Best two-part combo: GLM (Logistic) + CatBoost (Gini=0.6812)
+</pre>
+</div>
+</div>
+</div>
+</div>
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=5cf05b14">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [ ]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [13]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-python"><pre><span></span><span class="c1"># Top-10 pure premium results sorted by Gini</span>
+<div class="highlight hl-ipython3"><pre><span></span><span class="c1"># Top-10 pure premium results sorted by Gini</span>
 <span class="nb">print</span><span class="p">(</span><span class="s2">"=== Top 10 Model Combinations by Normalized Gini ===</span><span class="se">\n</span><span class="s2">"</span><span class="p">)</span>
 <span class="n">top10</span> <span class="o">=</span> <span class="n">pp_df</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="s2">"Normalized_Gini"</span><span class="p">,</span> <span class="n">ascending</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span><span class="o">.</span><span class="n">head</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span>
 <span class="nb">print</span><span class="p">(</span><span class="n">top10</span><span class="p">[[</span><span class="s2">"Calibration_Ratio"</span><span class="p">,</span> <span class="s2">"Normalized_Gini"</span><span class="p">]]</span><span class="o">.</span><span class="n">to_string</span><span class="p">())</span>
 </pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell-outputWrapper">
+<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
+</div>
+<div class="jp-OutputArea jp-Cell-outputArea">
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
+<pre>=== Top 10 Model Combinations by Normalized Gini ===
+
+                                   Calibration_Ratio  Normalized_Gini
+Model                                                                
+GLM (Logistic) + CatBoost                     0.9631           0.6812
+GLM (Logistic) + LightGBM (Gamma)             0.9505           0.6805
+GLM (Logistic) + XGBoost (Gamma)              0.9505           0.6803
+CatBoost + CatBoost                           0.9563           0.6801
+CatBoost + LightGBM (Gamma)                   0.9433           0.6795
+CatBoost + XGBoost (Gamma)                    0.9431           0.6793
+XGBoost + CatBoost                            0.9551           0.6790
+GLM (Logistic) + Random Forest                0.9634           0.6788
+LightGBM + CatBoost                           0.9552           0.6787
+XGBoost + LightGBM (Gamma)                    0.9427           0.6782
+</pre>
 </div>
 </div>
 </div>
@@ -8357,15 +8685,15 @@ a.anchor-link {
 </div>
 </div>
 </div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs" id="cell-id=269035a9">
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=269035a9">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [ ]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [14]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-python"><pre><span></span><span class="c1"># Lift chart for best two-part model (Plotly)</span>
+<div class="highlight hl-ipython3"><pre><span></span><span class="c1"># Lift chart for best two-part model (Plotly)</span>
 <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Best Two-Part Model: </span><span class="si">{</span><span class="n">best_combo_name</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
 <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Normalized Gini: </span><span class="si">{</span><span class="n">best_gini</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="se">\n</span><span class="s2">"</span><span class="p">)</span>
 
@@ -8392,30 +8720,51 @@ a.anchor-link {
 </div>
 </div>
 </div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs" id="cell-id=f45ba638">
+<div class="jp-Cell-outputWrapper">
+<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
+</div>
+<div class="jp-OutputArea jp-Cell-outputArea">
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
+<pre>Best Two-Part Model: GLM (Logistic) + CatBoost
+Normalized Gini: 0.6812
+
+</pre>
+</div>
+</div>
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+</div>
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
+<pre>Top vs bottom decile actual-loss lift: 292x
+</pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=f45ba638">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
+<h1 id="Lift-chart-for-Tweedie-(single-model)-for-comparison">Lift chart for Tweedie (single model) for comparison<a class="anchor-link" href="#Lift-chart-for-Tweedie-(single-model)-for-comparison">¶</a></h1><p>plotly_lift_chart(actual_loss, tweedie_pred, "Lift Chart - Tweedie GLM (Single Model)")</p>
+</div>
+</div>
+</div>
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=68b77970">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [ ]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [16]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-python"><pre><span></span><span class="c1"># Lift chart for Tweedie (single model) for comparison</span>
-<span class="n">plotly_lift_chart</span><span class="p">(</span><span class="n">actual_loss</span><span class="p">,</span> <span class="n">tweedie_pred</span><span class="p">,</span> <span class="s2">"Lift Chart - Tweedie GLM (Single Model)"</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-</div>
-</div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs" id="cell-id=68b77970">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [ ]:</div>
-<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
-<div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-python"><pre><span></span><span class="c1"># Feature importance from the best frequency and severity models (Plotly)</span>
+<div class="highlight hl-ipython3"><pre><span></span><span class="c1"># Feature importance from the best frequency and severity models (Plotly)</span>
 <span class="n">best_freq_name</span> <span class="o">=</span> <span class="n">best_combo_name</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">" + "</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
 <span class="n">best_sev_name</span> <span class="o">=</span> <span class="n">best_combo_name</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">" + "</span><span class="p">)[</span><span class="mi">1</span><span class="p">]</span>
 
@@ -8445,6 +8794,33 @@ a.anchor-link {
 </div>
 </div>
 </div>
+<div class="jp-Cell-outputWrapper">
+<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
+</div>
+<div class="jp-OutputArea jp-Cell-outputArea">
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
+<pre>Feature Importance - Frequency: GLM (Logistic)
+</pre>
+</div>
+</div>
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+</div>
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
+<pre>
+Feature Importance - Severity: CatBoost
+</pre>
+</div>
+</div>
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+</div>
+</div>
+</div>
 </div>
 <div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=90c5a36f">
 <div class="jp-Cell-inputWrapper" tabindex="0">
@@ -8467,15 +8843,15 @@ a.anchor-link {
 </div>
 </div>
 </div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs" id="cell-id=a8774997">
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=a8774997">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [ ]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [17]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-python"><pre><span></span><span class="c1"># Final summary table</span>
+<div class="highlight hl-ipython3"><pre><span></span><span class="c1"># Final summary table</span>
 <span class="nb">print</span><span class="p">(</span><span class="s2">"="</span> <span class="o">*</span> <span class="mi">70</span><span class="p">)</span>
 <span class="nb">print</span><span class="p">(</span><span class="s2">"FINAL MODEL COMPARISON - PURE PREMIUM"</span><span class="p">)</span>
 <span class="nb">print</span><span class="p">(</span><span class="s2">"="</span> <span class="o">*</span> <span class="mi">70</span><span class="p">)</span>
@@ -8496,6 +8872,41 @@ a.anchor-link {
 <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">" Norm. Gini: </span><span class="si">{</span><span class="n">final_df</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="s1">'Normalized_Gini'</span><span class="p">]</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
 <span class="nb">print</span><span class="p">(</span><span class="s2">"="</span> <span class="o">*</span> <span class="mi">70</span><span class="p">)</span>
 </pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell-outputWrapper">
+<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
+</div>
+<div class="jp-OutputArea jp-Cell-outputArea">
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
+<pre>======================================================================
+FINAL MODEL COMPARISON - PURE PREMIUM
+======================================================================
+
+--- Top 5 Two-Part Combinations ---
+                                   Calibration_Ratio  Normalized_Gini
+Model                                                                
+GLM (Logistic) + CatBoost                     0.9631           0.6812
+GLM (Logistic) + LightGBM (Gamma)             0.9505           0.6805
+GLM (Logistic) + XGBoost (Gamma)              0.9505           0.6803
+CatBoost + CatBoost                           0.9563           0.6801
+CatBoost + LightGBM (Gamma)                   0.9433           0.6795
+
+--- Tweedie Single Model ---
+Empty DataFrame
+Columns: [Calibration_Ratio, Normalized_Gini]
+Index: []
+
+======================================================================
+BEST OVERALL: GLM (Logistic) + CatBoost
+ Calibration: 0.9631
+ Norm. Gini: 0.6812
+======================================================================
+</pre>
 </div>
 </div>
 </div>
